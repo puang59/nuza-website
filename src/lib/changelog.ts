@@ -111,14 +111,14 @@ function parseCommit(entryXml: string): CommitInfo {
   };
 }
 
-async function fetchLatestRelease(): Promise<ReleaseInfo | null> {
+async function fetchReleases(limit = 5): Promise<ReleaseInfo[]> {
   const res = await fetch(`https://github.com/${REPO}/releases.atom`, {
     headers: FEED_HEADERS,
   });
-  if (!res.ok) return null;
+  if (!res.ok) return [];
 
-  const [entry] = splitEntries(await res.text());
-  return entry ? parseRelease(entry) : null;
+  const entries = splitEntries(await res.text()).slice(0, limit);
+  return entries.map(parseRelease);
 }
 
 async function fetchCommitsForTag(tag: string): Promise<CommitInfo[]> {
@@ -130,17 +130,24 @@ async function fetchCommitsForTag(tag: string): Promise<CommitInfo[]> {
   return splitEntries(await res.text()).map(parseCommit);
 }
 
-export async function fetchChangelog(): Promise<{
-  release: ReleaseInfo | null;
+export interface ChangelogData {
+  release: ReleaseInfo;
   commits: CommitInfo[];
-}> {
-  try {
-    const release = await fetchLatestRelease();
-    if (!release) return { release: null, commits: [] };
+}
 
-    const commits = await fetchCommitsForTag(release.tag);
-    return { release, commits };
+export async function fetchChangelog(): Promise<ChangelogData[]> {
+  try {
+    const releases = await fetchReleases(5);
+    if (releases.length === 0) return [];
+
+    const data = await Promise.all(
+      releases.map(async (release) => {
+        const commits = await fetchCommitsForTag(release.tag);
+        return { release, commits };
+      })
+    );
+    return data;
   } catch {
-    return { release: null, commits: [] };
+    return [];
   }
 }

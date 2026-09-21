@@ -5,9 +5,10 @@ import LeftPanel from '../components/LeftPanel.astro';
 import AboutSection from '../components/AboutSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
 
-const { release, commits } = await fetchChangelog();
+const changelogs = await fetchChangelog();
+const latestRelease = changelogs[0]?.release;
 
-const latestVersion = release?.tag ? release.tag.replace(/^v/, '') : '0.1.0';
+const latestVersion = latestRelease?.tag ? latestRelease.tag.replace(/^(app-)?v/, '') : '0.1.0';
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
@@ -110,7 +111,7 @@ const structuredData = {
       ═══════════════════════════════════════ -->
       <div id="right-col" class="flex-1 order-2 overflow-y-auto lg:h-screen no-scrollbar">
         <AboutSection version={latestVersion} />
-        <ChangelogSection release={release} commits={commits} />
+        <ChangelogSection changelogs={changelogs} />
       </div>
     </main>
 
