@@ -64,9 +64,33 @@ function initDownloadButton(): void {
     el.innerHTML = PLATFORM_ICONS.linux;
   });
 
+  const macWarning = document.getElementById('mac-warning');
+  const updateMacWarning = (os: string) => {
+    if (macWarning) {
+      if (os.startsWith('mac')) macWarning.classList.remove('hidden');
+      else macWarning.classList.add('hidden');
+    }
+  };
+
+  updateMacWarning(detectedOS);
+
+  const copyBtn = document.getElementById('copy-mac-cmd');
+  const macCmd = document.getElementById('mac-cmd');
+  if (copyBtn && macCmd) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(macCmd.textContent || '');
+      const originalHtml = copyBtn.innerHTML;
+      copyBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#96FF96" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      setTimeout(() => {
+        copyBtn.innerHTML = originalHtml;
+      }, 2000);
+    });
+  }
+
   mainBtn?.addEventListener('click', (e) => {
     e.preventDefault();
     triggerDownload(detectedOS);
+    updateMacWarning(detectedOS);
   });
 
   chevron?.addEventListener('click', (e) => {
@@ -79,7 +103,10 @@ function initDownloadButton(): void {
   document.querySelectorAll<HTMLButtonElement>('.dl-option').forEach((btn) => {
     btn.addEventListener('click', () => {
       const os = btn.dataset.os;
-      if (os) triggerDownload(os);
+      if (os) {
+        triggerDownload(os);
+        updateMacWarning(os);
+      }
       dropdown?.classList.add('hidden');
       chevron?.setAttribute('aria-expanded', 'false');
     });
