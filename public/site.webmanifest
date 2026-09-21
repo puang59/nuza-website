@@ -1,0 +1,16 @@
+{
+  "name": "nuza — a fast, open-source, Vim-powered markdown editor",
+  "short_name": "nuza",
+  "description": "A lightweight, privacy-first, open-source alternative to Obsidian.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ]
+}
