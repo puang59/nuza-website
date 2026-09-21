@@ -7,6 +7,8 @@ import ChangelogSection from '../components/ChangelogSection.astro';
 
 const { release, commits } = await fetchChangelog();
 
+const latestVersion = release?.tag ? release.tag.replace(/^v/, '') : '0.1.0';
+
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
 const PAGE_URL = `${SITE_URL}${Astro.url.pathname}`;
@@ -98,7 +100,7 @@ const structuredData = {
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
 
-  <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen">
+  <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen" data-latest-version={latestVersion}>
 
     <main class="flex flex-col lg:flex-row min-h-screen lg:h-screen w-full lg:overflow-hidden">
       <LeftPanel />
