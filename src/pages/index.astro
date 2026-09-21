@@ -109,7 +109,7 @@ const structuredData = {
            RIGHT — snap-y: About → Changelog
       ═══════════════════════════════════════ -->
       <div id="right-col" class="flex-1 order-2 overflow-y-auto lg:h-screen no-scrollbar">
-        <AboutSection />
+        <AboutSection version={latestVersion} />
         <ChangelogSection release={release} commits={commits} />
       </div>
     </main>
