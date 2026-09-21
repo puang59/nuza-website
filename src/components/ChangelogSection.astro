@@ -1,0 +1,99 @@
+---
+import type { CommitInfo, ReleaseInfo } from '../lib/changelog';
+import { CATEGORY_COLORS, categorizeCommit, formatDate } from '../lib/changelog';
+
+interface Props {
+  release: ReleaseInfo | null;
+  commits: CommitInfo[];
+}
+
+const { release, commits } = Astro.props;
+---
+
+<section id="changelog-section" class="snap-start shrink-0 min-h-screen lg:h-screen flex flex-col px-5 py-8 sm:px-8 sm:py-10 lg:px-14 lg:py-12 overflow-hidden">
+
+  <!-- Header -->
+  <div class="flex items-baseline justify-between mb-6 shrink-0">
+    <div>
+      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-zinc-600 mb-1">releases</p>
+      <h2 class="text-base sm:text-lg font-bold text-white font-sans">changelog</h2>
+    </div>
+    <a
+      href="https://github.com/puang59/nuza/releases"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-[9px] sm:text-[10px] font-mono text-zinc-600 hover:text-zinc-400 transition-colors tracking-widest uppercase"
+    >
+      view all &#x2197;
+    </a>
+  </div>
+
+  {release ? (
+    <div class="shrink-0 mb-6">
+      <div class="flex items-baseline gap-3 pb-3 border-b border-zinc-800/60">
+        <a
+          href={release.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-white font-bold text-sm hover:text-neutral-300 transition-colors font-sans"
+        >
+          {release.title}
+        </a>
+        <span class="text-[9px] text-zinc-700 ml-auto shrink-0">
+          {formatDate(release.date)}
+        </span>
+      </div>
+    </div>
+  ) : null}
+
+  <!-- Commits list — scrollable within screen -->
+  <div class="flex-1 overflow-y-auto no-scrollbar pr-2">
+    {commits.length === 0 ? (
+      <div class="flex flex-col items-start gap-3 mt-4">
+        <p class="text-[10px] uppercase tracking-[0.2em] text-zinc-700">no commits found</p>
+        <p class="text-[12.5px] leading-[1.8] text-neutral-500 max-w-sm">
+          check back soon or watch the
+          <a
+            href="https://github.com/puang59/nuza"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-neutral-400 hover:text-neutral-200 transition-colors ml-1"
+          >
+            repository
+          </a>
+          for updates.
+        </p>
+      </div>
+    ) : (
+      <ul class="space-y-0.5">
+        {commits.map((commit) => {
+          const category = categorizeCommit(commit.title);
+          const color = CATEGORY_COLORS[category];
+          return (
+            <li class="group flex items-start gap-3 py-2.5 border-b border-zinc-800/30 last:border-0 hover:bg-zinc-800/10 transition-colors -mx-2 px-2 rounded-sm">
+              <span class={`text-[9px] uppercase tracking-widest font-bold font-mono mt-0.5 w-14 shrink-0 ${color}`}>
+                {category}
+              </span>
+
+              <div class="flex-1 min-w-0">
+                <a
+                  href={commit.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[12px] sm:text-[12.5px] text-neutral-400 hover:text-neutral-200 transition-colors block truncate"
+                >
+                  {commit.title}
+                </a>
+              </div>
+
+              <span class="text-[9px] text-zinc-700 shrink-0 mt-0.5">
+                {formatDate(commit.date)}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </div>
+
+</section>

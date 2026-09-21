@@ -1,0 +1,137 @@
+---
+// Branding, pitch copy, CTAs and the app screenshot. Sits over an ambient
+// ASCII canvas (see src/scripts/ascii-background.ts); the blurred panel
+// behind the copy keeps that texture from fighting with text legibility.
+---
+
+<div class="flex flex-col justify-between px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12 border-b lg:border-b-0 lg:border-r border-zinc-800/50 w-full lg:w-[38%] shrink-0 order-1 relative overflow-hidden">
+
+  <!-- Ambient ASCII background -->
+  <canvas
+    id="ascii-bg"
+    class="absolute inset-0 w-full h-full z-0 pointer-events-none select-none"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Soft-edged backdrop keeping copy readable over the animation -->
+  <div
+    class="absolute inset-x-2 top-2 h-[70%] z-[5] bg-[#090909]/80 blur-3xl rounded-[2.5rem] pointer-events-none"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Top content -->
+  <div class="relative z-20 flex flex-col gap-6 pt-2">
+
+    <!-- Wordmark -->
+    <div class="animate-fade-in-up">
+      <div class="flex items-center gap-3 mb-2">
+        <img src="/logo.png" alt="nuza logo" class="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">nuza</h1>
+      </div>
+      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-zinc-500">
+        lightweight &middot; fast &middot; open source
+      </p>
+    </div>
+
+    <!-- Description -->
+    <div class="animate-fade-in-up-delay-1 space-y-3 text-[12px] sm:text-[12.5px] leading-[1.75] sm:leading-[1.8] text-neutral-400 max-w-sm lg:max-w-none">
+      <p>
+        <strong class="text-neutral-200 font-normal">nuza</strong> is a lightning-fast,
+        privacy-first, and fully open-source alternative to obsidian. built natively with
+        Tauri and React, it delivers a deeply integrated desktop experience that stays out
+        of your way.
+      </p>
+      <p>
+        featuring a beautifully minimalist UI, native vim keybindings out of the box, and
+        a strictly local file-system approach, <strong class="text-neutral-200 font-normal">nuza</strong>{" "}
+        is designed for developers and writers who demand absolute control over their notes
+        without the bloat.
+      </p>
+    </div>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-3 animate-fade-in-up-delay-2">
+      <a
+        id="cta-github"
+        href="https://github.com/puang59/nuza"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-neutral-200 text-neutral-900 px-6 sm:px-8 py-2.5 text-xs font-bold font-mono hover:bg-white transition-colors tracking-wider text-center"
+      >
+        VIEW ON GITHUB
+      </a>
+
+      <!-- Smart download -->
+      <div id="download-wrapper" class="relative">
+        <div class="flex">
+          <a
+            id="cta-download"
+            href="#"
+            class="flex items-center gap-2 bg-transparent border border-zinc-700 border-r-0 text-neutral-400 px-4 sm:px-5 py-2.5 text-xs font-bold font-mono hover:bg-zinc-800/40 hover:text-neutral-200 transition-colors tracking-wider"
+          >
+            <span id="dl-os-icon" class="flex items-center" aria-hidden="true"></span>
+            DOWNLOAD
+          </a>
+          <button
+            id="dl-chevron"
+            type="button"
+            aria-label="Choose platform"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            class="flex items-center px-2.5 border border-zinc-700 text-neutral-500 hover:bg-zinc-800/40 hover:text-neutral-200 transition-colors cursor-pointer"
+          >
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Dropdown — below the button -->
+        <div
+          id="dl-dropdown"
+          role="listbox"
+          aria-label="Select platform"
+          class="hidden absolute top-full left-0 mt-1.5 w-48 bg-[#111111] border border-zinc-800 shadow-xl shadow-black/60 z-50"
+        >
+          <button data-os="mac-arm" role="option" class="dl-option flex items-center gap-2.5 w-full px-4 py-2.5 text-[11px] font-mono text-neutral-400 hover:bg-zinc-800/60 hover:text-neutral-200 transition-colors tracking-wide text-left cursor-pointer">
+            <span class="dl-icon-apple flex items-center opacity-70" aria-hidden="true"></span>
+            macOS (Apple Silicon)
+          </button>
+          <button data-os="mac-intel" role="option" class="dl-option flex items-center gap-2.5 w-full px-4 py-2.5 text-[11px] font-mono text-neutral-400 hover:bg-zinc-800/60 hover:text-neutral-200 transition-colors tracking-wide text-left cursor-pointer">
+            <span class="dl-icon-apple flex items-center opacity-70" aria-hidden="true"></span>
+            macOS (Intel)
+          </button>
+          <div class="border-t border-zinc-800/60 mx-3 my-0.5" role="separator"></div>
+          <button data-os="win" role="option" class="dl-option flex items-center gap-2.5 w-full px-4 py-2.5 text-[11px] font-mono text-neutral-400 hover:bg-zinc-800/60 hover:text-neutral-200 transition-colors tracking-wide text-left cursor-pointer">
+            <span class="dl-icon-win flex items-center opacity-70" aria-hidden="true"></span>
+            Windows
+          </button>
+          <div class="border-t border-zinc-800/60 mx-3 my-0.5" role="separator"></div>
+          <button data-os="linux-deb" role="option" class="dl-option flex items-center gap-2.5 w-full px-4 py-2.5 text-[11px] font-mono text-neutral-400 hover:bg-zinc-800/60 hover:text-neutral-200 transition-colors tracking-wide text-left cursor-pointer">
+            <span class="dl-icon-linux flex items-center opacity-70" aria-hidden="true"></span>
+            Linux (.deb)
+          </button>
+          <button data-os="linux-rpm" role="option" class="dl-option flex items-center gap-2.5 w-full px-4 py-2.5 text-[11px] font-mono text-neutral-400 hover:bg-zinc-800/60 hover:text-neutral-200 transition-colors tracking-wide text-left cursor-pointer">
+            <span class="dl-icon-linux flex items-center opacity-70" aria-hidden="true"></span>
+            Linux (.rpm)
+          </button>
+          <button data-os="linux-appimage" role="option" class="dl-option flex items-center gap-2.5 w-full px-4 py-2.5 text-[11px] font-mono text-neutral-400 hover:bg-zinc-800/60 hover:text-neutral-200 transition-colors tracking-wide text-left cursor-pointer">
+            <span class="dl-icon-linux flex items-center opacity-70" aria-hidden="true"></span>
+            Linux (.AppImage)
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Demo — pinned to bottom -->
+  <div class="relative z-10 animate-fade-in-up-delay-3 mt-auto pt-6 sm:pt-8">
+    <img
+      src="/demo.png"
+      alt="nuza app screenshot"
+      class="w-full max-w-sm rounded-sm border border-zinc-800 shadow-2xl shadow-black/60 object-cover object-top"
+    />
+  </div>
+
+</div>

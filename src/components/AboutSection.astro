@@ -1,0 +1,78 @@
+---
+// First screen of the right column — the team's pitch, plus the
+// scroll-to-changelog hint and footer.
+---
+
+<section class="snap-start shrink-0 min-h-screen lg:h-screen flex flex-col justify-between px-5 py-8 sm:px-8 sm:py-10 lg:px-14 lg:py-12">
+
+  <div class="flex flex-col justify-center flex-1 space-y-7 max-w-lg">
+
+    <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-zinc-600 animate-fade-in-up">
+      a note from the nuza team
+    </p>
+
+    <div class="space-y-2 animate-fade-in-up-delay-2">
+      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-zinc-600">why we built it</p>
+      <p class="text-[12px] sm:text-[12.5px] leading-[1.75] sm:leading-[1.8] text-neutral-400">
+        honestly? we started building nuza just for fun to see if we could completely
+        replace our daily note-taking apps with something substantially lighter and faster.
+        we wanted a tool that does exactly what you need it to do — nothing extra, no
+        bloated plugins, and no sluggish startup times. it is brutally simple and just
+        works right out of the box.
+      </p>
+    </div>
+
+    <div class="space-y-2 animate-fade-in-up-delay-3">
+      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-zinc-600">under the hood</p>
+      <p class="text-[12px] sm:text-[12.5px] leading-[1.75] sm:leading-[1.8] text-neutral-400">
+        nuza is a native desktop application powered by
+        <span class="text-neutral-300">Rust via Tauri</span>. the frontend is extremely
+        minimal, written in <span class="text-neutral-300">React</span> and
+        <span class="text-neutral-300">TypeScript</span>, while the writing experience is
+        driven by <span class="text-neutral-300">CodeMirror</span> to provide flawless,
+        native-feeling vim keybindings.
+      </p>
+    </div>
+
+    <div class="space-y-2 animate-fade-in-up-delay-4">
+      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-zinc-600">fully open source</p>
+      <p class="text-[12px] sm:text-[12.5px] leading-[1.75] sm:leading-[1.8] text-neutral-400">
+        nuza is entirely open source and community-driven. if you want to help us make the
+        ultimate minimalist editor, pull requests are always welcome. whether it's fixing a
+        bug, tweaking the UI, or just starring the repository, jump into the github and
+        come build with us!
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Scroll hint + Footer -->
+  <div class="mt-6">
+    <button
+      id="scroll-to-changelog"
+      class="flex items-center gap-1.5 text-zinc-700 hover:text-zinc-500 transition-colors text-[10px] font-mono mb-4 cursor-pointer group"
+      aria-label="Scroll to changelog"
+    >
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true" class="group-hover:translate-y-0.5 transition-transform">
+        <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      changelog
+    </button>
+
+    <p class="font-mono text-[9px] sm:text-[10px] text-zinc-700 flex items-center justify-between border-t border-zinc-800/40 pt-4">
+      <span>
+        &copy; 2026 | MIT License &middot;
+        <a
+          href="https://github.com/puang59/nuza"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-zinc-500 transition-colors ml-1"
+        >
+          github
+        </a>
+      </span>
+      <span>v0.1.0</span>
+    </p>
+  </div>
+
+</section>
