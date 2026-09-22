@@ -14,7 +14,7 @@ const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puan
 const OG_IMAGE = `${SITE_URL}/banner.png`;
 const PAGE_URL = `${SITE_URL}${Astro.url.pathname}`;
 
-const TITLE = 'nuza — a fast, open-source, Vim-powered markdown editor';
+const TITLE = 'nuza';
 const DESCRIPTION =
   'nuza is a lightweight, privacy-first, open-source alternative to Obsidian. A blazing-fast native markdown editor for macOS, Windows and Linux, built with Tauri and React, with Vim keybindings out of the box.';
 
@@ -61,8 +61,6 @@ const structuredData = {
     <link rel="canonical" href={PAGE_URL} />
 
     <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="apple-touch-icon" href="/logo.png" />
     <link rel="manifest" href="/site.webmanifest" />
