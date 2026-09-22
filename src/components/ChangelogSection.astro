@@ -46,7 +46,7 @@ const { changelogs } = Astro.props;
   </div>
 
   <!-- Content container -->
-  <div class="flex-1 overflow-y-auto no-scrollbar pr-2">
+  <div class="flex-1 overflow-y-auto overscroll-contain no-scrollbar pr-2">
     {changelogs.length === 0 ? (
       <div class="flex flex-col items-start gap-3 mt-4">
         <p class="text-[10px] uppercase tracking-[0.2em] text-zinc-700">no commits found</p>

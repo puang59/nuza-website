@@ -58,6 +58,34 @@ function initWheelSnap(): void {
 
   let isAnimating = false;
 
+  // Find a scrollable ancestor of `el` (up to `container`) that still has
+  // room to scroll in the wheel's direction, so nested scroll areas (like
+  // the changelog list) can be scrolled without hijacking the gesture into
+  // a section snap.
+  const findScrollableInDirection = (
+    el: Element | null,
+    deltaY: number
+  ): HTMLElement | null => {
+    let node = el as HTMLElement | null;
+    while (node && node !== container) {
+      const style = getComputedStyle(node);
+      const canScrollY =
+        (style.overflowY === 'auto' || style.overflowY === 'scroll') &&
+        node.scrollHeight > node.clientHeight;
+
+      if (canScrollY) {
+        const atTop = node.scrollTop <= 0;
+        const atBottom =
+          Math.ceil(node.scrollTop + node.clientHeight) >= node.scrollHeight;
+        if ((deltaY < 0 && !atTop) || (deltaY > 0 && !atBottom)) {
+          return node;
+        }
+      }
+      node = node.parentElement;
+    }
+    return null;
+  };
+
   const nearestSectionIndex = (): number => {
     let closest = 0;
     let minDistance = Infinity;
@@ -75,6 +103,10 @@ function initWheelSnap(): void {
     'wheel',
     (e: WheelEvent) => {
       if (!isDesktop() || prefersReducedMotion) return;
+
+      if (findScrollableInDirection(e.target as Element | null, e.deltaY)) {
+        return;
+      }
 
       if (isAnimating) {
         e.preventDefault();
