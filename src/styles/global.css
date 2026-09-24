@@ -55,6 +55,38 @@ body {
   opacity: 0;
 }
 
+/*
+ * The macOS command box appears dynamically (JS toggles it from `hidden`),
+ * so a plain fade-in class would replay every time the dropdown selection
+ * changes. This restarts the same way, but the settle at the end is what
+ * carries the "notice me" job - a soft flash of the accent border cooling
+ * back to rest, not a bounce or a shake.
+ */
+@keyframes attentionIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-attention-in {
+  animation: attentionIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-attention-in {
+    animation: none;
+  }
+}
+
 /* Scrollbar hide */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

@@ -27,6 +27,12 @@
       <div class="flex items-center gap-3 mb-2">
         <img src="/logo.png" alt="nuza logo" class="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
         <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">nuza</h1>
+        <span
+          class="shrink-0 rounded-full border border-zinc-800 bg-[#0d0d0d] px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-zinc-400"
+          title="Early days — expect rough edges"
+        >
+          beta
+        </span>
       </div>
       <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.3em] text-zinc-500">
         lightweight &middot; fast &middot; open source
@@ -125,18 +131,24 @@
       </div>
       </div>
 
-      <!-- macOS note -->
-      <div id="mac-warning" class="hidden mt-4 w-full sm:w-max">
-        <p class="text-[9px] text-zinc-500 font-mono mb-1.5 uppercase tracking-[0.1em]">macOS users: run after install</p>
-        <div class="flex items-center justify-between gap-3 bg-[#0d0d0d] border border-zinc-800 px-2 py-1.5">
+      <!-- macOS note — this is the step people skip: they install, launch, hit
+           Gatekeeper's "app is damaged" dialog, and assume the download
+           failed. A quiet accent border is enough to catch the eye without
+           dressing it up as a warning. -->
+      <div id="mac-warning" class="hidden mt-4 w-full sm:w-max animate-attention-in">
+        <p class="text-[9px] text-zinc-500 font-mono mb-1.5 uppercase tracking-[0.1em]">run this after install</p>
+        <div class="flex items-center justify-between gap-3 bg-[#0d0d0d] border border-[#FF9696]/20 px-2 py-1.5">
           <code id="mac-cmd" class="text-[10px] text-neutral-300 font-mono px-1 select-all">xattr -cr /Applications/nuza.app</code>
-          <button id="copy-mac-cmd" class="text-zinc-500 hover:text-white p-1 transition-colors cursor-pointer" aria-label="Copy command">
+          <button id="copy-mac-cmd" class="text-zinc-500 hover:text-white p-1 transition-colors cursor-pointer shrink-0" aria-label="Copy command">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
         </div>
+        <p class="text-[9px] text-zinc-600 mt-1.5 leading-relaxed max-w-[15rem]">
+          macOS blocks unsigned apps by default — run this in Terminal to open it.
+        </p>
       </div>
     </div>
 
