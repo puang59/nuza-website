@@ -102,7 +102,7 @@ const structuredData = {
   <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen" data-latest-version={latestVersion}>
 
     <main class="flex flex-col lg:flex-row min-h-screen lg:h-screen w-full lg:overflow-hidden">
-      <LeftPanel />
+      <LeftPanel version={latestVersion} />
       <div id="right-col" class="flex-1 order-2 overflow-y-auto lg:h-screen no-scrollbar">
         <AboutSection version={latestVersion} />
         <ChangelogSection changelogs={changelogs} />
