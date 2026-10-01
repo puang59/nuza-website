@@ -1,0 +1,47 @@
+---
+// One marquee row for the previews gallery. Rendered twice (back to back)
+// per instance so the loop has no visible seam, and masked via CSS
+// mask-image rather than overlay gradients — a mask fades the row's own
+// pixels out, so there's no separate layer that can fail to line up with
+// the page background behind it.
+
+export interface Props {
+  items: { index: number; src: string; alt: string }[];
+  direction: 'left' | 'right';
+  duration: number;
+  previewCount: number;
+  heightClass?: string;
+}
+
+const { items, direction, duration, previewCount, heightClass = 'h-56 lg:h-64' } = Astro.props;
+---
+
+<div class={`pv-row pv-row-mask relative w-full overflow-hidden ${heightClass}`}>
+  <div
+    class={`pv-row-track flex items-center gap-4 sm:gap-5 h-full w-max ${direction === 'left' ? 'pv-row-left' : 'pv-row-right'}`}
+    style={`--pv-duration: ${duration}s`}
+  >
+    {[false, true].map((duplicate) =>
+      items.map((p) => (
+        <button
+          type="button"
+          class="pv-item group relative shrink-0 h-full rounded-sm border border-zinc-800 overflow-hidden cursor-zoom-in bg-[#0d0d0d]"
+          data-index={p.index}
+          aria-label={`Open ${p.alt} full size`}
+          aria-hidden={duplicate ? 'true' : undefined}
+          tabindex={duplicate ? -1 : 0}
+        >
+          <img
+            src={p.src}
+            alt={p.alt}
+            loading="lazy"
+            class="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+          <span class="absolute bottom-2 right-2 text-[9px] font-mono text-zinc-300 bg-black/60 px-1.5 py-0.5 backdrop-blur-sm">
+            {p.index + 1}/{previewCount}
+          </span>
+        </button>
+      ))
+    )}
+  </div>
+</div>

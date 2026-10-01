@@ -1,0 +1,107 @@
+---
+// Screenshot gallery — sits between the about pitch and the changelog.
+// Rows of screenshots auto-scroll continuously in opposite directions
+// (pausing on hover) and open into a full-size, zoomable lightbox on click.
+// Cards size to each image's own aspect ratio instead of a fixed box, since
+// the screenshots are wide/rectangular and cropping them into tall tiles
+// loses most of the content. Mobile gets 3 shorter rows instead of 2 taller
+// ones — narrower screens have less width per card, so an extra row keeps
+// each screenshot legible rather than shrinking them further.
+
+import PreviewRow from './PreviewRow.astro';
+
+const PREVIEW_COUNT = 13;
+
+// d9 and d10 are pushed to the end of the sequence; everything else keeps
+// its natural order.
+const ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 9, 10];
+
+const previews = ORDER.map((n, i) => ({
+  index: i,
+  src: `https://nuza-cdn.puang.in/d${n}.png`,
+  alt: `nuza screenshot ${i + 1}`,
+}));
+
+const MOBILE_ROWS = [
+  { items: previews.slice(0, 5), direction: 'left' as const, duration: 38 },
+  { items: previews.slice(5, 9), direction: 'right' as const, duration: 32 },
+  { items: previews.slice(9), direction: 'left' as const, duration: 28 },
+];
+
+const DESKTOP_ROWS = [
+  { items: previews.slice(0, 7), direction: 'left' as const, duration: 46 },
+  { items: previews.slice(7), direction: 'right' as const, duration: 40 },
+];
+---
+
+<section id="previews-section" class="snap-start shrink-0 min-h-screen lg:h-screen flex flex-col px-5 py-8 sm:px-8 sm:py-10 lg:px-14 lg:py-12 overflow-hidden">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-6 shrink-0">
+    <div>
+      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-zinc-600 mb-1">gallery</p>
+      <h2 class="text-base sm:text-lg font-bold text-white font-sans">previews</h2>
+    </div>
+    <span class="text-[9px] sm:text-[10px] text-zinc-600 font-mono px-1 select-none tracking-widest uppercase">
+      click to zoom
+    </span>
+  </div>
+
+  <!-- Mobile: 3 rows -->
+  <div class="flex flex-1 min-h-0 flex-col justify-center gap-3 sm:hidden">
+    {MOBILE_ROWS.map((row) => (
+      <PreviewRow
+        items={row.items}
+        direction={row.direction}
+        duration={row.duration}
+        previewCount={PREVIEW_COUNT}
+        heightClass="h-32"
+      />
+    ))}
+  </div>
+
+  <!-- Tablet/desktop: 2 rows -->
+  <div class="hidden sm:flex sm:flex-1 sm:min-h-0 sm:flex-col sm:justify-center gap-4 sm:gap-5">
+    {DESKTOP_ROWS.map((row) => (
+      <PreviewRow
+        items={row.items}
+        direction={row.direction}
+        duration={row.duration}
+        previewCount={PREVIEW_COUNT}
+        heightClass="h-56 lg:h-64"
+      />
+    ))}
+  </div>
+
+</section>
+
+<!-- Preview lightbox — one shared overlay; src/index are swapped per click. -->
+<div
+  id="pv-lightbox"
+  data-total={PREVIEW_COUNT}
+  class="hidden fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm items-center justify-center p-6 sm:p-10 cursor-zoom-out"
+  role="dialog"
+  aria-modal="true"
+  aria-label="nuza screenshot, expanded"
+>
+  <img id="pv-lightbox-img" src="" alt="" class="max-w-full max-h-full w-auto h-auto object-contain rounded-sm border border-zinc-800 shadow-2xl cursor-zoom-out" />
+
+  <button
+    id="pv-lightbox-prev"
+    type="button"
+    aria-label="Previous screenshot"
+    class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-black/60 border border-zinc-700 text-neutral-300 hover:bg-black/90 hover:text-white transition-colors cursor-pointer"
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button
+    id="pv-lightbox-next"
+    type="button"
+    aria-label="Next screenshot"
+    class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-black/60 border border-zinc-700 text-neutral-300 hover:bg-black/90 hover:text-white transition-colors cursor-pointer"
+  >
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+
+  <span id="pv-lightbox-count" class="absolute top-4 right-4 sm:top-6 sm:right-8 text-[10px] font-mono text-zinc-400"></span>
+</div>

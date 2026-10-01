@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { fetchChangelog } from '../lib/changelog';
 import LeftPanel from '../components/LeftPanel.astro';
 import AboutSection from '../components/AboutSection.astro';
+import PreviewsSection from '../components/PreviewsSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
 
 const changelogs = await fetchChangelog();
@@ -105,6 +106,7 @@ const structuredData = {
       <LeftPanel version={latestVersion} />
       <div id="right-col" class="flex-1 order-2 overflow-y-auto lg:h-screen no-scrollbar">
         <AboutSection version={latestVersion} />
+        <PreviewsSection />
         <ChangelogSection changelogs={changelogs} />
       </div>
     </main>
@@ -112,5 +114,7 @@ const structuredData = {
     <script src="../scripts/downloads.ts"></script>
     <script src="../scripts/scroll.ts"></script>
     <script src="../scripts/ascii-background.ts"></script>
+    <script src="../scripts/demo-video.ts"></script>
+    <script src="../scripts/previews.ts"></script>
   </body>
 </html>

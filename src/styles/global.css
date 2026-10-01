@@ -91,6 +91,51 @@ body {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/*
+ * Preview gallery marquee — each row's track is the item list rendered
+ * twice back to back, animated exactly one copy's width (-50%) so the loop
+ * seam is invisible. Rows alternate direction for a bit of parallax, and
+ * hovering a row (to read a screenshot) pauses just that row.
+ */
+@keyframes pvMarqueeLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pvMarqueeRight {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.pv-row-left {
+  animation: pvMarqueeLeft var(--pv-duration, 45s) linear infinite;
+}
+
+.pv-row-right {
+  animation: pvMarqueeRight var(--pv-duration, 45s) linear infinite;
+}
+
+.pv-row:hover .pv-row-track {
+  animation-play-state: paused;
+}
+
+/*
+ * Fade the row's own edges out via mask rather than an overlay gradient
+ * painted on top — a mask can't show a seam against the page background
+ * the way two separate from/to-transparent divs can if anything between
+ * them is off by a pixel.
+ */
+.pv-row-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-row-track {
+    animation: none !important;
+  }
+}
+
 /* Snap scroll - proximity for less aggressive snapping */
 .snap-proximity {
   scroll-snap-type: y proximity;

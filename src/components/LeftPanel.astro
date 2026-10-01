@@ -158,16 +158,56 @@ const { version } = Astro.props;
       </div>
     </div>
 
-  <!-- Demo — pinned to bottom -->
+  <!-- Demo — pinned to bottom. The video node itself is moved into
+       #demo-video-overlay on expand and back here on collapse, so there's
+       only ever one <video> (no duplicate load/playback to keep in sync). -->
   <div class="relative z-10 animate-fade-in-up-delay-3 mt-auto pt-6 sm:pt-8">
-    <video
-      src="https://nuza-cdn.puang.in/nuza-intro-v3.mp4"
-      class="w-full max-w-sm rounded-sm border border-zinc-800 shadow-2xl shadow-black/60 object-cover object-top"
-      autoplay
-      muted
-      loop
-      playsinline
-    ></video>
+    <div id="demo-video-slot" class="w-full">
+      <div id="demo-video-stage" class="relative w-full">
+        <video
+          id="demo-video"
+          src="https://nuza-cdn.puang.in/nuza-intro-v3.mp4"
+          class="w-full rounded-sm border border-zinc-800 shadow-2xl shadow-black/60 object-cover object-top cursor-zoom-in"
+          autoplay
+          muted
+          loop
+          playsinline
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nodownload noplaybackrate nofullscreen"
+          tabindex="-1"
+        ></video>
+
+        <button
+          id="demo-video-mute"
+          type="button"
+          aria-label="Unmute video"
+          aria-pressed="false"
+          class="absolute bottom-2.5 right-2.5 z-10 flex items-center justify-center w-7 h-7 rounded-full bg-black/70 border border-zinc-700 text-neutral-300 backdrop-blur-sm hover:bg-black/90 hover:text-white transition-colors cursor-pointer"
+        >
+          <svg data-icon="muted" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg data-icon="unmuted" class="hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
+
+  <!-- Expanded demo video overlay — the stage (video + mute button) is
+       reparented in here on click. -->
+  <div
+    id="demo-video-overlay"
+    class="hidden fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm items-center justify-center p-6 sm:p-10 cursor-zoom-out"
+    role="dialog"
+    aria-modal="true"
+    aria-label="nuza demo video, expanded"
+  ></div>
 
 </div>
