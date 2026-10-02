@@ -15,34 +15,62 @@ const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puan
 const OG_IMAGE = `${SITE_URL}/banner.png`;
 const PAGE_URL = `${SITE_URL}${Astro.url.pathname}`;
 
-const TITLE = 'nuza';
+// No em dash in either: this is what a search result shows, and it reads
+// better as a plain sentence than as two halves.
+const TITLE = 'nuza: simple, lightweight Obsidian alternative for notes';
 const DESCRIPTION =
-  'nuza is a lightweight, privacy-first, open-source alternative to Obsidian. A blazing-fast native markdown editor for macOS, Windows and Linux, built with Tauri and React, with Vim keybindings out of the box.';
+  'A simple, lightweight Obsidian alternative. nuza is a free, open-source markdown note taking app for macOS, Windows and Linux, with Vim keybindings.';
+const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with Vim keybindings';
 
 const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'nuza',
-  alternateName: 'nuza markdown editor',
-  description: DESCRIPTION,
-  url: SITE_URL,
-  image: OG_IMAGE,
-  applicationCategory: 'ProductivityApplication',
-  operatingSystem: 'macOS, Windows, Linux',
-  softwareVersion: '0.1.0',
-  license: 'https://github.com/puang59/nuza/blob/main/LICENSE',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
-  author: {
-    '@type': 'Organization',
-    name: 'nuza',
-    url: 'https://github.com/puang59/nuza',
-  },
-  downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
-  sameAs: ['https://github.com/puang59/nuza'],
+  '@graph': [
+    // Tells Google what to call the site. Without it, a subdomain is shown
+    // under its parent domain's name instead of its own.
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: 'nuza',
+      alternateName: ['nuza notes', 'nuza markdown editor'],
+      url: `${SITE_URL}/`,
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#app`,
+      name: 'nuza',
+      alternateName: 'nuza markdown editor',
+      description: DESCRIPTION,
+      url: `${SITE_URL}/`,
+      image: OG_IMAGE,
+      screenshot: OG_IMAGE,
+      applicationCategory: 'ProductivityApplication',
+      applicationSubCategory: 'Note taking app',
+      operatingSystem: 'macOS, Windows, Linux',
+      softwareVersion: latestVersion,
+      license: 'https://github.com/puang59/nuza/blob/main/LICENSE',
+      isAccessibleForFree: true,
+      featureList: [
+        'Markdown notes stored as plain files in a folder on your computer',
+        'Vim keybindings',
+        'Wiki-links and backlinks between notes',
+        'Full-text search across your notes',
+        'Light and dark themes',
+        'Open source under the MIT license',
+      ],
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      author: {
+        '@type': 'Organization',
+        name: 'nuza',
+        url: 'https://github.com/puang59/nuza',
+      },
+      downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
+      sameAs: ['https://github.com/puang59/nuza'],
+    },
+  ],
 };
 ---
 
@@ -55,15 +83,17 @@ const structuredData = {
     <!-- Primary -->
     <title>{TITLE}</title>
     <meta name="description" content={DESCRIPTION} />
-    <meta name="keywords" content="nuza, obsidian alternative, markdown editor, note-taking app, tauri app, open source editor, vim keybindings, local-first notes, privacy-first notes, minimalist note-taking, developer notes app, markdown app macOS, markdown app windows, markdown app linux" />
+    <meta name="keywords" content="nuza, obsidian alternative, lightweight obsidian alternative, simple note taking app, markdown note taking, markdown editor, open source note taking, vim notes app, local-first notes, privacy-first notes, notes app for developers, markdown app macOS, markdown app windows, markdown app linux" />
     <meta name="author" content="nuza" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
     <link rel="canonical" href={PAGE_URL} />
 
     <!-- Icons -->
-    <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp, Slack, Telegram, iMessage, etc.) -->
@@ -78,7 +108,7 @@ const structuredData = {
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1920" />
     <meta property="og:image:height" content="1080" />
-    <meta property="og:image:alt" content="nuza — a fast, open-source, Vim-powered markdown editor" />
+    <meta property="og:image:alt" content={IMAGE_ALT} />
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -86,7 +116,7 @@ const structuredData = {
     <meta name="twitter:title" content={TITLE} />
     <meta name="twitter:description" content={DESCRIPTION} />
     <meta name="twitter:image" content={OG_IMAGE} />
-    <meta name="twitter:image:alt" content="nuza — a fast, open-source, Vim-powered markdown editor" />
+    <meta name="twitter:image:alt" content={IMAGE_ALT} />
 
     <!-- Theming -->
     <meta name="theme-color" content="#090909" />
