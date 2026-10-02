@@ -1,45 +1,45 @@
 ---
-// One marquee row for the previews gallery. Rendered twice (back to back)
-// per instance so the loop has no visible seam, and masked via CSS
-// mask-image rather than overlay gradients — a mask fades the row's own
-// pixels out, so there's no separate layer that can fail to line up with
-// the page background behind it.
+// One marquee row for the previews gallery, rendered twice (back to back)
+// per instance so the loop has no visible seam. The column's own rails are
+// what the row runs out under, so it needs no fade at its edges.
+//
+// The screenshots are the app's own window, shadow and all, on a transparent
+// ground, so they are shown as they are rather than boxed in a second frame.
 
 export interface Props {
   items: { index: number; src: string; alt: string }[];
   direction: 'left' | 'right';
   duration: number;
-  previewCount: number;
   heightClass?: string;
 }
 
-const { items, direction, duration, previewCount, heightClass = 'h-56 lg:h-64' } = Astro.props;
+const { items, direction, duration, heightClass = 'h-64 lg:h-72' } = Astro.props;
 ---
 
-<div class={`pv-row pv-row-mask relative w-full overflow-hidden ${heightClass}`}>
+<div class={`pv-row no-scrollbar relative w-full overflow-hidden ${heightClass}`}>
   <div
-    class={`pv-row-track flex items-center gap-4 sm:gap-5 h-full w-max ${direction === 'left' ? 'pv-row-left' : 'pv-row-right'}`}
+    class={`pv-row-track flex h-full w-max items-center ${direction === 'left' ? 'pv-row-left' : 'pv-row-right'}`}
     style={`--pv-duration: ${duration}s`}
   >
     {[false, true].map((duplicate) =>
       items.map((p) => (
         <button
           type="button"
-          class="pv-item group relative shrink-0 h-full rounded-sm border border-zinc-800 overflow-hidden cursor-zoom-in bg-[#0d0d0d]"
+          class="pv-item group relative h-full shrink-0 cursor-zoom-in"
           data-index={p.index}
-          aria-label={`Open ${p.alt} full size`}
+          aria-label={`Open full size: ${p.alt}`}
           aria-hidden={duplicate ? 'true' : undefined}
           tabindex={duplicate ? -1 : 0}
         >
           <img
             src={p.src}
-            alt={p.alt}
+            alt={duplicate ? '' : p.alt}
+            width="1050"
+            height="735"
             loading="lazy"
-            class="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            decoding="async"
+            class="h-full w-auto object-contain transition-transform duration-500 ease-out-soft group-hover:scale-[1.025]"
           />
-          <span class="absolute bottom-2 right-2 text-[9px] font-mono text-zinc-300 bg-black/60 px-1.5 py-0.5 backdrop-blur-sm">
-            {p.index + 1}/{previewCount}
-          </span>
         </button>
       ))
     )}

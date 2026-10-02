@@ -8,9 +8,11 @@ export interface Props {
   description: string;
   /** Schema.org nodes for this page, added to the graph beside the site's own. */
   structuredData?: Record<string, unknown>[];
+  /** An image above the fold worth fetching before the stylesheet asks for it. */
+  preloadImage?: string;
 }
 
-const { title, description, structuredData = [] } = Astro.props;
+const { title, description, structuredData = [], preloadImage } = Astro.props;
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
@@ -74,9 +76,13 @@ const graph = {
 <meta name="theme-color" content="#090909" />
 <meta name="color-scheme" content="dark" />
 
-<!-- Perf: font preconnects (see global.css) -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<!-- Perf: the screenshots and the demo video live on the CDN -->
+<link rel="preconnect" href="https://nuza-cdn.puang.in" />
+{preloadImage && <link rel="preload" as="image" href={preloadImage} type="image/webp" fetchpriority="high" />}
+
+<!-- Marks the document as scripted before first paint, so the scroll
+     reveals in global.css only hide what a script will later show. -->
+<script is:inline>document.documentElement.classList.add('js');</script>
 
 <!-- Structured data -->
 <script type="application/ld+json" set:html={JSON.stringify(graph)} />

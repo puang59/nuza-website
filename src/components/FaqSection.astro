@@ -1,0 +1,35 @@
+---
+// Questions and answers as native disclosures: they open without a script,
+// and what is inside a closed one is still in the page for a search engine
+// to read. The page passes the same list to its FAQPage structured data, so
+// what is marked up is exactly what is shown.
+
+export interface Faq {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  faqs: Faq[];
+  /** Open the first question, as a hint that the rest open too. */
+  openFirst?: boolean;
+}
+
+const { faqs, openFirst = false } = Astro.props;
+---
+
+<div class="flex flex-col gap-3">
+  {faqs.map(({ question, answer }, i) => (
+    <details class="faq box group" open={openFirst && i === 0} data-reveal style={`--delay: ${Math.min(i, 4) * 50}ms`}>
+      <summary class="flex items-center justify-between gap-6 px-4 py-4 transition-colors hover:bg-raised sm:px-6">
+        <h3 class="text-[13px] font-medium text-zinc-100 sm:text-[14px]">{question}</h3>
+        <span class="faq-icon flex h-6 w-6 shrink-0 items-center justify-center text-zinc-400 group-hover:text-white" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </span>
+      </summary>
+      <p class="border-t border-line px-4 py-4 text-[13px] leading-[1.8] text-zinc-400 sm:px-6">{answer}</p>
+    </details>
+  ))}
+</div>

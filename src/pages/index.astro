@@ -1,19 +1,22 @@
 ---
-import '../styles/global.css';
-import { fetchChangelog } from '../lib/changelog';
-import LeftPanel from '../components/LeftPanel.astro';
-import AboutSection from '../components/AboutSection.astro';
+import { fetchChangelog, versionFromTag } from '../lib/changelog';
+import Base from '../layouts/Base.astro';
+import { fetchStarCount } from '../lib/stars';
+import InfoSection from '../components/InfoSection.astro';
 import PreviewsSection from '../components/PreviewsSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
-import SeoHead from '../components/SeoHead.astro';
+import Ticker from '../components/Ticker.astro';
 
-const changelogs = await fetchChangelog();
+const [changelogs, stars] = await Promise.all([fetchChangelog(), fetchStarCount()]);
 const latestRelease = changelogs[0]?.release;
 
-const latestVersion = latestRelease?.tag ? latestRelease.tag.replace(/^(app-)?v/, '') : '0.1.0';
+// Empty when GitHub could not be reached at build time; the download buttons
+// then link to the releases page instead of guessing at a file name.
+const latestVersion = latestRelease?.tag ? versionFromTag(latestRelease.tag) : '';
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
+const DEMO_VIDEO = 'https://nuza-cdn.puang.in/nuza-intro-v3.mp4';
 
 // No em dash in either: this is what a search result shows, and it reads
 // better as a plain sentence than as two halves.
@@ -43,7 +46,7 @@ const structuredData = [
     applicationCategory: 'ProductivityApplication',
     applicationSubCategory: 'Note taking app',
     operatingSystem: 'macOS, Windows, Linux',
-    softwareVersion: latestVersion,
+    ...(latestVersion ? { softwareVersion: latestVersion } : {}),
     license: 'https://github.com/puang59/nuza/blob/main/LICENSE',
     isAccessibleForFree: true,
     featureList: [
@@ -51,6 +54,8 @@ const structuredData = [
       'Vim keybindings',
       'Wiki-links and backlinks between notes',
       'Full-text search across your notes',
+      'Quick open and tabs',
+      'Live rendering of tables, tasks, images and code blocks',
       'Light and dark themes',
       'Open source under the MIT license',
     ],
@@ -67,29 +72,34 @@ const structuredData = [
     downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
     sameAs: ['https://github.com/puang59/nuza'],
   },
+  {
+    '@type': 'VideoObject',
+    '@id': `${SITE_URL}/#demo-video`,
+    name: 'nuza intro: a lightweight markdown note taking app',
+    description:
+      'A short tour of nuza: a note rendering as it is written, the file tree beside it, open tabs across the top and Vim mode in the status bar.',
+    thumbnailUrl: `${SITE_URL}/demo-poster.webp`,
+    contentUrl: DEMO_VIDEO,
+    uploadDate: '2026-10-01T09:50:49Z',
+    duration: 'PT44S',
+  },
 ];
 ---
 
-<html lang="en">
-  <head>
-    <SeoHead title={TITLE} description={DESCRIPTION} structuredData={structuredData} />
-  </head>
+<Base
+  title={TITLE}
+  description={DESCRIPTION}
+  structuredData={structuredData}
+  preloadImage="/bg.webp"
+  version={latestVersion}
+>
+  <InfoSection version={latestVersion} stars={stars} />
+  <Ticker />
+  <PreviewsSection />
+  <Ticker text="plain markdown · vim keybindings · local files" />
+  <ChangelogSection changelogs={changelogs} />
+  <Ticker />
 
-  <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen" data-latest-version={latestVersion}>
-
-    <main class="flex flex-col lg:flex-row min-h-screen lg:h-screen w-full lg:overflow-hidden">
-      <LeftPanel version={latestVersion} />
-      <div id="right-col" class="flex-1 order-2 overflow-y-auto lg:h-screen no-scrollbar">
-        <AboutSection version={latestVersion} />
-        <PreviewsSection />
-        <ChangelogSection changelogs={changelogs} />
-      </div>
-    </main>
-
-    <script src="../scripts/downloads.ts"></script>
-    <script src="../scripts/scroll.ts"></script>
-    <script src="../scripts/ascii-background.ts"></script>
-    <script src="../scripts/demo-video.ts"></script>
-    <script src="../scripts/previews.ts"></script>
-  </body>
-</html>
+  <script src="../scripts/demo-video.ts"></script>
+  <script src="../scripts/previews.ts"></script>
+</Base>

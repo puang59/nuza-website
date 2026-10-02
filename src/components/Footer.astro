@@ -1,0 +1,105 @@
+---
+// The foot of every page: a closing line and one last invitation to download, set
+// over the second painting, with the site's links along its lower edge.
+//
+// As in the hero, the art is clipped by its own layer and not by the column,
+// so the platform menu is free to open over the scenery below the button.
+
+import DownloadButton from './DownloadButton.astro';
+
+export interface Props {
+  version?: string;
+}
+
+const { version } = Astro.props;
+
+const links = [
+  { href: 'https://github.com/puang59/nuza', label: 'GitHub', external: true },
+  { href: 'https://github.com/puang59/nuza/releases', label: 'Releases', external: true },
+  { href: 'https://github.com/puang59/nuza/issues', label: 'Issues', external: true },
+  { href: '/obsidian-alternative/', label: 'Obsidian alternative', external: false },
+];
+---
+
+<footer class="band">
+  <div class="col isolate flex min-h-[40rem] flex-col justify-between md:min-h-[46rem]">
+
+    <div class="absolute inset-0 -z-10 overflow-hidden bg-panel">
+      <picture>
+        <source srcset="/footer.webp" type="image/webp" />
+        <img
+          src="/footer.png"
+          alt="A painting of a seated figure in a laurel wreath looking out from a ruined terrace over a bay at dusk"
+          width="1717"
+          height="916"
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover object-[50%_100%]"
+        />
+      </picture>
+      <div class="footer-scrim absolute inset-0" aria-hidden="true"></div>
+    </div>
+
+    <div class="flex grow flex-col items-center justify-center px-5 py-16 text-center sm:px-10" data-reveal>
+      <h2 class="heading text-balance text-2xl leading-tight sm:text-4xl">
+        Notes that outlive<br />the app that wrote them.
+      </h2>
+      <p class="mt-5 max-w-lg text-pretty text-[13px] leading-[1.8] text-zinc-300 sm:text-[14px]">
+        Plain markdown on your own disk, readable long after any editor is gone. nuza is free and
+        open source for macOS, Windows and Linux.
+      </p>
+      <div class="mt-8 w-full">
+        <DownloadButton />
+      </div>
+    </div>
+
+    <div class="px-5 py-6 sm:px-10">
+      <div class="flex flex-col items-center gap-6 md:flex-row md:items-end md:justify-between">
+        <div class="flex flex-col items-center gap-2 text-center md:items-start md:text-left">
+          <a href="/" class="text-xl font-bold text-white sm:text-2xl">nuza</a>
+          <p class="text-[11px] text-accent">
+            &copy; 2026 nuza &middot;{' '}
+            <a
+              href="https://github.com/puang59/nuza/blob/main/LICENSE"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:underline"
+            >MIT License</a>
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center gap-4 md:items-end">
+          {version && (
+            <a
+              href="/#changelog"
+              class="flex items-center gap-2 border border-[#333] bg-black/50 px-3.5 py-2 text-[11px] text-zinc-300 transition-colors hover:border-[#575757]"
+              title="Latest release"
+            >
+              <span class="h-2 w-2 rounded-full bg-[#22c55e]"></span>
+              v{version} is the latest release
+            </a>
+          )}
+          <nav aria-label="Footer">
+            <ul class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] uppercase tracking-[0.12em] text-zinc-400">
+              {links.map((link, i) => (
+                <li class="flex items-center gap-2">
+                  {i > 0 && <span class="text-zinc-600" aria-hidden="true">//</span>}
+                  <a
+                    href={link.href}
+                    target={link.external ? '_blank' : undefined}
+                    rel={link.external ? 'noopener noreferrer' : undefined}
+                    class="transition-colors hover:text-white hover:underline"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <slot />
+    </div>
+  </div>
+</footer>

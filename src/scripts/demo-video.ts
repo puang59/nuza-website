@@ -1,8 +1,11 @@
-// Demo video — muted by default with a manual mute/unmute toggle, and a
+// Demo video: muted by default with a manual mute/unmute toggle, and a
 // click-to-expand lightbox. There are no native controls at any size, so
 // visitors can mute and expand the video but never pause, scrub, or change
 // its playback speed; the listeners below close the few remaining paths to
 // those actions (keyboard shortcuts, context menu, programmatic pauses).
+//
+// The file is only requested once the video is close to the viewport. Until
+// then the element shows its poster and has no `src` at all.
 
 function initDemoVideo(): void {
   const slot = document.getElementById('demo-video-slot');
@@ -12,6 +15,30 @@ function initDemoVideo(): void {
   const muteBtn = document.getElementById('demo-video-mute');
 
   if (!slot || !stage || !overlay || !video || !muteBtn) return;
+
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    const src = video.dataset.src;
+    if (src) video.src = src;
+    video.play().catch(() => {});
+  };
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          start();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '300px 0px' }
+    );
+    observer.observe(slot);
+  } else {
+    start();
+  }
 
   const iconMuted = muteBtn.querySelector<SVGElement>('[data-icon="muted"]');
   const iconUnmuted = muteBtn.querySelector<SVGElement>('[data-icon="unmuted"]');
@@ -25,6 +52,7 @@ function initDemoVideo(): void {
 
   muteBtn.addEventListener('click', (e) => {
     e.stopPropagation();
+    start();
     video.muted = !video.muted;
     updateMuteIcon();
   });
@@ -38,7 +66,7 @@ function initDemoVideo(): void {
   });
   video.addEventListener('contextmenu', (e) => e.preventDefault());
   video.addEventListener('pause', () => {
-    if (!video.ended) video.play().catch(() => {});
+    if (started && !video.ended) video.play().catch(() => {});
   });
   video.addEventListener('ratechange', () => {
     if (video.playbackRate !== 1) video.playbackRate = 1;
@@ -49,8 +77,9 @@ function initDemoVideo(): void {
   const expand = () => {
     if (expanded) return;
     expanded = true;
+    start();
     overlay.appendChild(stage);
-    stage.classList.add('max-w-4xl', 'mx-auto');
+    stage.classList.add('max-w-6xl', 'mx-auto');
     overlay.classList.remove('hidden');
     overlay.classList.add('flex');
     document.body.classList.add('overflow-hidden');
@@ -60,7 +89,7 @@ function initDemoVideo(): void {
     if (!expanded) return;
     expanded = false;
     slot.appendChild(stage);
-    stage.classList.remove('max-w-4xl', 'mx-auto');
+    stage.classList.remove('max-w-6xl', 'mx-auto');
     overlay.classList.add('hidden');
     overlay.classList.remove('flex');
     document.body.classList.remove('overflow-hidden');
