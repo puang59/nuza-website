@@ -22,52 +22,52 @@ const DESCRIPTION =
   'A simple, lightweight Obsidian alternative. nuza is a free, open-source markdown note taking app for macOS, Windows and Linux, with Vim keybindings.';
 
 const structuredData = [
-    // Tells Google what to call the site. Without it, a subdomain is shown
-    // under its parent domain's name instead of its own.
-    {
-      '@type': 'WebSite',
-      '@id': `${SITE_URL}/#website`,
-      name: 'nuza',
-      alternateName: ['nuza notes', 'nuza markdown editor'],
-      url: `${SITE_URL}/`,
+  // Tells Google what to call the site. Without it, a subdomain is shown
+  // under its parent domain's name instead of its own.
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    name: 'nuza',
+    alternateName: ['nuza notes', 'nuza markdown editor'],
+    url: `${SITE_URL}/`,
+  },
+  {
+    '@type': 'SoftwareApplication',
+    '@id': `${SITE_URL}/#app`,
+    name: 'nuza',
+    alternateName: 'nuza markdown editor',
+    description: DESCRIPTION,
+    url: `${SITE_URL}/`,
+    image: OG_IMAGE,
+    screenshot: OG_IMAGE,
+    applicationCategory: 'ProductivityApplication',
+    applicationSubCategory: 'Note taking app',
+    operatingSystem: 'macOS, Windows, Linux',
+    softwareVersion: latestVersion,
+    license: 'https://github.com/puang59/nuza/blob/main/LICENSE',
+    isAccessibleForFree: true,
+    featureList: [
+      'Markdown notes stored as plain files in a folder on your computer',
+      'Vim keybindings',
+      'Wiki-links and backlinks between notes',
+      'Full-text search across your notes',
+      'Light and dark themes',
+      'Open source under the MIT license',
+    ],
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
     },
-    {
-      '@type': 'SoftwareApplication',
-      '@id': `${SITE_URL}/#app`,
+    author: {
+      '@type': 'Organization',
       name: 'nuza',
-      alternateName: 'nuza markdown editor',
-      description: DESCRIPTION,
-      url: `${SITE_URL}/`,
-      image: OG_IMAGE,
-      screenshot: OG_IMAGE,
-      applicationCategory: 'ProductivityApplication',
-      applicationSubCategory: 'Note taking app',
-      operatingSystem: 'macOS, Windows, Linux',
-      softwareVersion: latestVersion,
-      license: 'https://github.com/puang59/nuza/blob/main/LICENSE',
-      isAccessibleForFree: true,
-      featureList: [
-        'Markdown notes stored as plain files in a folder on your computer',
-        'Vim keybindings',
-        'Wiki-links and backlinks between notes',
-        'Full-text search across your notes',
-        'Light and dark themes',
-        'Open source under the MIT license',
-      ],
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-      },
-      author: {
-        '@type': 'Organization',
-        name: 'nuza',
-        url: 'https://github.com/puang59/nuza',
-      },
-      downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
-      sameAs: ['https://github.com/puang59/nuza'],
+      url: 'https://github.com/puang59/nuza',
     },
-  ];
+    downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
+    sameAs: ['https://github.com/puang59/nuza'],
+  },
+];
 ---
 
 <html lang="en">
