@@ -1,6 +1,10 @@
 ---
-import '../styles/global.css';
-import SeoHead from '../components/SeoHead.astro';
+import { fetchLatestVersion } from '../lib/changelog';
+import Base from '../layouts/Base.astro';
+import FaqSection from '../components/FaqSection.astro';
+import Ticker from '../components/Ticker.astro';
+
+const latestVersion = await fetchLatestVersion();
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const PAGE_URL = `${SITE_URL}/obsidian-alternative/`;
@@ -8,6 +12,15 @@ const PAGE_URL = `${SITE_URL}/obsidian-alternative/`;
 const TITLE = 'nuza: a simple, lightweight Obsidian alternative';
 const DESCRIPTION =
   'nuza is a free, open-source markdown note taking app for macOS, Windows and Linux. See how it compares with Obsidian and who it is for.';
+
+const features = [
+  'Markdown that renders as you type, with tables, tasks, images and frontmatter properties',
+  'Wiki-links between notes, and backlinks to see what links to the note you have open',
+  'Tabs, quick open, and search across the text of every note',
+  'Vim keybindings, off until you switch them on',
+  'Light and dark themes, and an accent colour you choose',
+  'Autosave, and your last session reopened when you come back',
+];
 
 // What each app does, said only where it is plain fact about both. The point
 // of the table is to help someone choose, so the rows nuza loses come first.
@@ -96,135 +109,142 @@ const structuredData = [
 ];
 ---
 
-<html lang="en">
-  <head>
-    <SeoHead title={TITLE} description={DESCRIPTION} structuredData={structuredData} />
-  </head>
+<Base title={TITLE} description={DESCRIPTION} structuredData={structuredData} version={latestVersion}>
+  <article>
 
-  <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen">
-    <main class="mx-auto w-full max-w-2xl px-5 py-10 sm:px-8 sm:py-14">
+    <header class="band">
+      <div class="col px-5 py-14 sm:px-10 sm:py-20">
+        <div class="rise-in flex items-center justify-between gap-4">
+          <a href="/" class="flex items-center gap-3" aria-label="nuza home">
+            <img src="/logo.png" alt="" width="32" height="32" class="h-8 w-8 object-contain" />
+            <span class="text-xl font-bold tracking-tight text-white">nuza</span>
+          </a>
+          <nav aria-label="Breadcrumb" class="label">
+            <a href="/" class="transition-colors hover:text-white">nuza</a>
+            <span class="mx-1.5 text-zinc-600" aria-hidden="true">//</span>
+            <span class="text-zinc-300" aria-current="page">Obsidian alternative</span>
+          </nav>
+        </div>
 
-      <nav aria-label="Breadcrumb" class="mb-10">
-        <a href="/" class="inline-flex items-center gap-2.5 text-neutral-400 hover:text-neutral-200 transition-colors">
-          <img src="/logo.png" alt="" width="28" height="28" class="w-7 h-7 object-contain" />
-          <span class="font-sans text-lg font-bold tracking-tight text-white">nuza</span>
-        </a>
-      </nav>
+        <h1 class="rise-in heading mt-12 max-w-3xl text-balance text-[1.65rem] leading-[1.2] sm:text-4xl sm:leading-[1.15]" style="--delay: 80ms">
+          A simple, lightweight Obsidian alternative
+        </h1>
 
-      <article class="space-y-12 text-[12px] sm:text-[12.5px] leading-[1.75] sm:leading-[1.8] text-neutral-400">
-
-        <header class="space-y-4">
-          <h1 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-white">
-            a simple, lightweight Obsidian alternative
-          </h1>
+        <div class="rise-in mt-6 max-w-2xl space-y-3 text-pretty text-[13px] leading-[1.8] text-zinc-300 sm:text-[14.5px]" style="--delay: 160ms">
           <p>
-            <strong class="text-neutral-200 font-normal">nuza</strong> is a free, open-source
-            markdown note taking app for macOS, Windows and Linux. your notes are plain files in
-            a folder on your computer, it opens quickly, and it has Vim keybindings built in.
+            <strong class="font-medium text-white">nuza</strong> is a free, open-source markdown note
+            taking app for macOS, Windows and Linux. Your notes are plain files in a folder on your
+            computer, it opens quickly, and it has Vim keybindings built in.
           </p>
-          <p>
-            it does less than Obsidian on purpose. this page is about what that means, so you
-            can tell whether it suits you.
+          <p class="text-zinc-400">
+            It does less than Obsidian on purpose. This page is about what that means, so you can
+            tell whether it suits you.
           </p>
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
-            <a
-              href="https://github.com/puang59/nuza/releases/latest"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="bg-neutral-200 text-neutral-900 px-6 py-2.5 text-xs font-bold hover:bg-white transition-colors tracking-wider text-center"
-            >
-              DOWNLOAD NUZA
-            </a>
-            <a
-              href="/"
-              class="border border-zinc-700 text-neutral-400 px-6 py-2.5 text-xs font-bold hover:bg-zinc-800/40 hover:text-neutral-200 transition-colors tracking-wider text-center"
-            >
-              SEE IT IN ACTION
-            </a>
-          </div>
-        </header>
+        </div>
 
-        <section class="space-y-4" aria-labelledby="what">
-          <h2 id="what" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">what you get</h2>
-          <ul class="space-y-2 list-disc pl-5 marker:text-zinc-700">
-            <li>markdown that renders as you type, with tables, tasks, images and frontmatter properties</li>
-            <li>wiki-links between notes, and backlinks to see what links to the note you have open</li>
-            <li>tabs, quick open, and search across the text of every note</li>
-            <li>Vim keybindings, off until you switch them on</li>
-            <li>light and dark themes, and an accent colour you choose</li>
-            <li>autosave, and your last session reopened when you come back</li>
-          </ul>
-        </section>
+        <div class="rise-in mt-8 flex flex-wrap gap-3" style="--delay: 240ms">
+          <a href="https://github.com/puang59/nuza/releases/latest" data-dl-quick class="btn btn-primary">
+            Download nuza
+          </a>
+          <a href="/" class="btn btn-ghost">See it in action</a>
+        </div>
+      </div>
+    </header>
 
-        <section class="space-y-4" aria-labelledby="compare">
-          <h2 id="compare" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">
-            nuza and Obsidian, side by side
-          </h2>
-          <div class="overflow-x-auto">
-            <table class="w-full min-w-[34rem] border-collapse text-left">
+    <section class="band" aria-labelledby="what">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="what" class="label">What you get</h2>
+        </div>
+        <ul class="grid sm:grid-cols-2">
+          {features.map((feature) => (
+            <li class="flex items-start gap-3 border-b border-line px-5 py-5 text-[13px] leading-[1.8] text-zinc-300 sm:px-10 sm:odd:border-r sm:[&:nth-last-child(-n+2)]:border-b-0">
+              <span class="mt-[0.55rem] h-1.5 w-1.5 shrink-0 bg-accent" aria-hidden="true"></span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="compare">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="compare" class="label">nuza and Obsidian, side by side</h2>
+        </div>
+        <div class="px-4 py-6 sm:px-10 sm:py-10" data-reveal>
+          <div class="box thin-scrollbar overflow-x-auto">
+            <table class="w-full min-w-[36rem] border-collapse text-left text-[13px] leading-[1.7]">
               <caption class="sr-only">How nuza and Obsidian differ</caption>
               <thead>
-                <tr class="border-b border-zinc-800 text-neutral-200">
-                  <th scope="col" class="py-2 pr-4 font-normal"><span class="sr-only">Feature</span></th>
-                  <th scope="col" class="py-2 pr-4 font-normal">nuza</th>
-                  <th scope="col" class="py-2 font-normal">Obsidian</th>
+                <tr class="border-b border-line text-[11px] uppercase tracking-[0.16em] text-zinc-400">
+                  <th scope="col" class="px-4 py-3.5 font-normal sm:px-6"><span class="sr-only">Feature</span></th>
+                  <th scope="col" class="border-l border-line px-4 py-3.5 font-bold text-accent sm:px-6">nuza</th>
+                  <th scope="col" class="border-l border-line px-4 py-3.5 font-bold text-zinc-200 sm:px-6">Obsidian</th>
                 </tr>
               </thead>
               <tbody>
                 {comparison.map(([feature, nuza, obsidian]) => (
-                  <tr class="border-b border-zinc-800/60 align-top">
-                    <th scope="row" class="py-2.5 pr-4 font-normal text-neutral-300">{feature}</th>
-                    <td class="py-2.5 pr-4">{nuza}</td>
-                    <td class="py-2.5">{obsidian}</td>
+                  <tr class="border-b border-line align-top transition-colors last:border-0 hover:bg-raised">
+                    <th scope="row" class="px-4 py-3.5 font-medium text-zinc-100 sm:px-6">{feature}</th>
+                    <td class="border-l border-line px-4 py-3.5 text-zinc-300 sm:px-6">{nuza}</td>
+                    <td class="border-l border-line px-4 py-3.5 text-zinc-400 sm:px-6">{obsidian}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <section class="space-y-4" aria-labelledby="who">
-          <h2 id="who" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">who it is for</h2>
-          <p>
-            nuza suits you if you want to open a folder of markdown and write, and you would
-            rather have an app that is small, quick and does a few things well than one you
-            configure. it is a good fit for developers, and for anyone who wants Vim keys in
-            their notes.
-          </p>
-          <p>
-            stay with Obsidian if your notes depend on plugins, if you want a graph view, or if
-            you need your notes on a phone. those are real strengths and nuza does not try to
-            match them.
-          </p>
-        </section>
-
-        <section class="space-y-6" aria-labelledby="faq">
-          <h2 id="faq" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">questions</h2>
-          {faqs.map(({ question, answer }) => (
-            <div class="space-y-1.5">
-              <h3 class="text-neutral-200 font-normal">{question}</h3>
-              <p>{answer}</p>
+    <section class="band" aria-labelledby="who">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="who" class="label">Who it is for</h2>
+        </div>
+        <div class="grid md:grid-cols-2">
+          <div class="border-b border-line px-5 py-8 sm:px-10 md:border-b-0 md:border-r md:py-10">
+            <div data-reveal>
+              <h3 class="text-[13px] font-bold uppercase tracking-[0.08em] text-white">Choose nuza</h3>
+              <p class="mt-4 text-[13px] leading-[1.85] text-zinc-400">
+                nuza suits you if you want to open a folder of markdown and write, and you would
+                rather have an app that is small, quick and does a few things well than one you
+                configure. It is a good fit for developers, and for anyone who wants Vim keys in
+                their notes.
+              </p>
             </div>
-          ))}
-        </section>
+          </div>
+          <div class="px-5 py-8 sm:px-10 md:py-10">
+            <div data-reveal style="--delay: 90ms">
+              <h3 class="text-[13px] font-bold uppercase tracking-[0.08em] text-white">Stay with Obsidian</h3>
+              <p class="mt-4 text-[13px] leading-[1.85] text-zinc-400">
+                Stay with Obsidian if your notes depend on plugins, if you want a graph view, or if
+                you need your notes on a phone. Those are real strengths and nuza does not try to
+                match them.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <footer class="border-t border-zinc-800/40 pt-5 space-y-3 text-[10px] text-zinc-600">
-          <p>
-            <a href="/" class="hover:text-zinc-400 transition-colors">nuza</a> &middot;
-            <a
-              href="https://github.com/puang59/nuza"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-zinc-400 transition-colors"
-            >github</a> &middot; MIT License
-          </p>
-          <p>
-            Obsidian is a trademark of its owners. nuza is an independent project and is not
-            affiliated with or endorsed by Obsidian.
-          </p>
-        </footer>
+    <section class="band" aria-labelledby="faq">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="faq" class="label">Questions</h2>
+        </div>
+        <div class="mx-auto max-w-3xl px-4 py-6 sm:px-10 sm:py-10">
+          <FaqSection faqs={faqs} openFirst />
+        </div>
+      </div>
+    </section>
+  </article>
 
-      </article>
-    </main>
-  </body>
-</html>
+  <Ticker />
+
+  <p slot="footer-note" class="mt-6 border-t border-white/10 pt-4 text-center text-[10px] leading-relaxed text-zinc-400 md:text-left">
+    Obsidian is a trademark of its owners. nuza is an independent project and is not affiliated
+    with or endorsed by Obsidian.
+  </p>
+</Base>

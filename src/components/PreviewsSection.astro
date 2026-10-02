@@ -1,25 +1,34 @@
 ---
-// Screenshot gallery — sits between the about pitch and the changelog.
-// Rows of screenshots auto-scroll continuously in opposite directions
-// (pausing on hover) and open into a full-size, zoomable lightbox on click.
-// Cards size to each image's own aspect ratio instead of a fixed box, since
-// the screenshots are wide/rectangular and cropping them into tall tiles
-// loses most of the content. Mobile gets 3 shorter rows instead of 2 taller
-// ones — narrower screens have less width per card, so an extra row keeps
-// each screenshot legible rather than shrinking them further.
+// Screenshot gallery. Rows of screenshots auto-scroll continuously in
+// opposite directions (pausing on hover) and open into a full-size lightbox
+// on click. Mobile gets 3 shorter rows instead of 2 taller ones: narrower
+// screens have less width per screenshot, so an extra row keeps each one
+// legible rather than shrinking them further.
 
 import PreviewRow from './PreviewRow.astro';
 
-const PREVIEW_COUNT = 13;
+// In the order they are shown. The number is the file on the CDN (d1.png
+// and so on); the two light-theme shots, d9 and d10, are kept for last.
+const SHOTS: [number, string][] = [
+  [1, 'A markdown note rendering as it is typed in nuza, with headings, nested lists and tasks, the file tree and linked mentions in the sidebar, and Vim normal mode in the status bar'],
+  [2, 'nuza appearance settings: theme, window transparency, accent colour, editor font and font size'],
+  [3, 'nuza keymap settings, where each keyboard shortcut can be recorded again'],
+  [4, 'The quick open palette in nuza listing the files in a vault'],
+  [5, 'A table and an image rendered inside a markdown note in nuza'],
+  [6, 'The file menu in the nuza sidebar: rename, duplicate, reveal in Finder, copy path and delete'],
+  [7, 'Full-text search results in the nuza sidebar, beside a note with frontmatter properties'],
+  [8, 'Text selected in Vim visual mode in nuza, with the editor menu offering to link to a note or add a property'],
+  [11, 'A note with frontmatter properties, a link and an inline image, using a purple accent colour'],
+  [12, 'A long-form note with images and links open in a tab in nuza'],
+  [13, 'JavaScript and Python code blocks with syntax highlighting in a nuza note'],
+  [9, 'nuza in its light theme, showing a long-form markdown note'],
+  [10, 'The nuza appearance settings in the light theme'],
+];
 
-// d9 and d10 are pushed to the end of the sequence; everything else keeps
-// its natural order.
-const ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 9, 10];
-
-const previews = ORDER.map((n, i) => ({
+const previews = SHOTS.map(([n, alt], i) => ({
   index: i,
   src: `https://nuza-cdn.puang.in/d${n}.png`,
-  alt: `nuza screenshot ${i + 1}`,
+  alt,
 }));
 
 const MOBILE_ROWS = [
@@ -29,79 +38,72 @@ const MOBILE_ROWS = [
 ];
 
 const DESKTOP_ROWS = [
-  { items: previews.slice(0, 7), direction: 'left' as const, duration: 46 },
-  { items: previews.slice(7), direction: 'right' as const, duration: 40 },
+  { items: previews.slice(0, 7), direction: 'left' as const, duration: 60 },
+  { items: previews.slice(7), direction: 'right' as const, duration: 52 },
 ];
 ---
 
-<section id="previews-section" class="snap-start shrink-0 min-h-screen lg:h-screen flex flex-col px-5 py-8 sm:px-8 sm:py-10 lg:px-14 lg:py-12 overflow-hidden">
-
-  <!-- Header -->
-  <div class="flex items-center justify-between mb-6 shrink-0">
-    <div>
-      <p class="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-zinc-600 mb-1">gallery</p>
-      <h2 class="text-base sm:text-lg font-bold text-white font-sans">previews</h2>
+<section id="previews" class="band" aria-labelledby="previews-title">
+  <div class="col overflow-hidden">
+    <div class="flex items-end justify-between gap-4 border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
+      <div>
+        <p class="label">Gallery</p>
+        <h2 id="previews-title" class="heading mt-2 text-2xl sm:text-3xl">Previews</h2>
+        <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
+          The editor, the sidebar, search, settings and both themes, exactly as they look on a desktop.
+        </p>
+      </div>
+      <p class="label hidden shrink-0 sm:block">Click to zoom</p>
     </div>
-    <span class="text-[9px] sm:text-[10px] text-zinc-600 font-mono px-1 select-none tracking-widest uppercase">
-      click to zoom
-    </span>
-  </div>
 
-  <!-- Mobile: 3 rows -->
-  <div class="flex flex-1 min-h-0 flex-col justify-center gap-3 sm:hidden">
-    {MOBILE_ROWS.map((row) => (
-      <PreviewRow
-        items={row.items}
-        direction={row.direction}
-        duration={row.duration}
-        previewCount={PREVIEW_COUNT}
-        heightClass="h-32"
-      />
-    ))}
-  </div>
+    <div class="py-6 sm:py-10" data-reveal style="--delay: 100ms">
+      <!-- Mobile: 3 rows -->
+      <div class="flex flex-col sm:hidden">
+        {MOBILE_ROWS.map((row) => (
+          <PreviewRow items={row.items} direction={row.direction} duration={row.duration} heightClass="h-40" />
+        ))}
+      </div>
 
-  <!-- Tablet/desktop: 2 rows -->
-  <div class="hidden sm:flex sm:flex-1 sm:min-h-0 sm:flex-col sm:justify-center gap-4 sm:gap-5">
-    {DESKTOP_ROWS.map((row) => (
-      <PreviewRow
-        items={row.items}
-        direction={row.direction}
-        duration={row.duration}
-        previewCount={PREVIEW_COUNT}
-        heightClass="h-56 lg:h-64"
-      />
-    ))}
+      <!-- Tablet/desktop: 2 rows -->
+      <div class="hidden flex-col sm:flex">
+        {DESKTOP_ROWS.map((row) => (
+          <PreviewRow items={row.items} direction={row.direction} duration={row.duration} heightClass="h-64 lg:h-80" />
+        ))}
+      </div>
+    </div>
   </div>
-
 </section>
 
-<!-- Preview lightbox - one shared overlay; src/index are swapped per click. -->
+<!-- Preview lightbox: one shared overlay; src/index are swapped per click. -->
 <div
   id="pv-lightbox"
-  data-total={PREVIEW_COUNT}
-  class="hidden fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm items-center justify-center p-6 sm:p-10 cursor-zoom-out"
+  data-total={previews.length}
+  class="hidden fade-in fixed inset-0 z-[200] items-center justify-center bg-black/90 p-4 backdrop-blur-sm cursor-zoom-out sm:p-12"
   role="dialog"
   aria-modal="true"
   aria-label="nuza screenshot, expanded"
 >
-  <img id="pv-lightbox-img" src="" alt="" class="max-w-full max-h-full w-auto h-auto object-contain rounded-sm border border-zinc-800 shadow-2xl cursor-zoom-out" />
+  <img id="pv-lightbox-img" src="" alt="" class="max-h-full max-w-full h-auto w-auto object-contain cursor-zoom-out" />
 
   <button
     id="pv-lightbox-prev"
     type="button"
     aria-label="Previous screenshot"
-    class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-black/60 border border-zinc-700 text-neutral-300 hover:bg-black/90 hover:text-white transition-colors cursor-pointer"
+    class="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-[#575757] bg-ink/80 text-zinc-200 transition-colors hover:bg-raised hover:text-white cursor-pointer sm:left-6"
   >
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
   <button
     id="pv-lightbox-next"
     type="button"
     aria-label="Next screenshot"
-    class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center justify-center w-9 h-9 rounded-full bg-black/60 border border-zinc-700 text-neutral-300 hover:bg-black/90 hover:text-white transition-colors cursor-pointer"
+    class="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center border border-[#575757] bg-ink/80 text-zinc-200 transition-colors hover:bg-raised hover:text-white cursor-pointer sm:right-6"
   >
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
   </button>
 
-  <span id="pv-lightbox-count" class="absolute top-4 right-4 sm:top-6 sm:right-8 text-[10px] font-mono text-zinc-400"></span>
+  <span
+    id="pv-lightbox-count"
+    class="absolute right-4 top-4 border border-[#575757] bg-ink/80 px-3 py-1 text-[11px] text-zinc-300 sm:right-6 sm:top-6"
+  ></span>
 </div>

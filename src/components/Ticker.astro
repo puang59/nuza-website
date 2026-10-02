@@ -1,0 +1,26 @@
+---
+// The thin band of scrolling text that separates one section from the next.
+// It repeats a few words about the app, so it is hidden from screen readers:
+// read aloud it would be the same phrase a dozen times over.
+
+export interface Props {
+  text?: string;
+}
+
+const { text = 'simple · lightweight · open source' } = Astro.props;
+
+// Enough copies to cover a wide screen; the set is then rendered twice so
+// the loop has no seam (see global.css).
+const copies = Array.from({ length: 8 });
+---
+
+<div class="band relative h-10 overflow-hidden bg-ink" aria-hidden="true">
+  <div class="ticker-track flex h-full w-max items-center whitespace-nowrap text-[11px] uppercase tracking-[0.2em] text-zinc-500">
+    {[0, 1].map(() => copies.map(() => (
+      <span class="mx-6 flex items-center gap-12">
+        {text}
+        <span class="h-1 w-1 bg-accent"></span>
+      </span>
+    )))}
+  </div>
+</div>

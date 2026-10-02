@@ -60,6 +60,19 @@ function extractAttr(xml: string, tag: string, attr: string): string {
   return match ? match[1] : '';
 }
 
+// The feeds escape their text, and Astro escapes it again when it renders,
+// so an apostrophe left as it came would be shown as "&#39;".
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+}
+
 function splitEntries(xml: string): string[] {
   const entries: string[] = [];
   let cursor = 0;
@@ -95,7 +108,7 @@ export function categorizeCommit(title: string): CommitCategory {
 function parseRelease(entryXml: string): ReleaseInfo {
   return {
     tag: extractTag(entryXml, 'id').split('/').pop() || '',
-    title: extractTag(entryXml, 'title'),
+    title: decodeEntities(extractTag(entryXml, 'title')),
     date: extractTag(entryXml, 'updated'),
     url: extractAttr(entryXml, 'link', 'href'),
     body: extractTag(entryXml, 'content'),
@@ -104,7 +117,7 @@ function parseRelease(entryXml: string): ReleaseInfo {
 
 function parseCommit(entryXml: string): CommitInfo {
   return {
-    title: extractTag(entryXml, 'title'),
+    title: decodeEntities(extractTag(entryXml, 'title')),
     date: extractTag(entryXml, 'updated'),
     url: extractAttr(entryXml, 'link', 'href'),
     author: extractTag(entryXml, 'name'),
@@ -128,6 +141,25 @@ async function fetchCommitsForTag(tag: string): Promise<CommitInfo[]> {
   if (!res.ok) return [];
 
   return splitEntries(await res.text()).map(parseCommit);
+}
+
+/** A release tag as a bare version number: `app-v0.2.0` becomes `0.2.0`. */
+export function versionFromTag(tag: string): string {
+  return tag.replace(/^(app-)?v/, '');
+}
+
+/**
+ * The latest released version, for pages that need it to build download
+ * links but have no use for the changelog itself. Empty when GitHub can't be
+ * reached, which the download buttons take as "link to the releases page".
+ */
+export async function fetchLatestVersion(): Promise<string> {
+  try {
+    const [latest] = await fetchReleases(1);
+    return latest?.tag ? versionFromTag(latest.tag) : '';
+  } catch {
+    return '';
+  }
 }
 
 export interface ChangelogData {

@@ -1,0 +1,109 @@
+---
+// The download control: a button for the visitor's own system, a menu of
+// every other build beside it, and the macOS note under both. Everything is
+// found by `data-dl-*` hooks inside the `data-dl` root rather than by id, so
+// the page can carry more than one (see src/scripts/downloads.ts).
+//
+// Anything passed in the slot sits in the same row, after the button.
+
+export interface Props {
+  /** Which way the row and the macOS note line up. */
+  align?: 'center' | 'start';
+}
+
+const { align = 'center' } = Astro.props;
+
+const RELEASES_URL = 'https://github.com/puang59/nuza/releases/latest';
+
+const options = [
+  { os: 'mac-arm', icon: 'apple', label: 'macOS (Apple Silicon)' },
+  { os: 'mac-intel', icon: 'apple', label: 'macOS (Intel)' },
+  { os: 'win', icon: 'windows', label: 'Windows' },
+  { os: 'linux-deb', icon: 'linux', label: 'Linux (.deb)' },
+  { os: 'linux-rpm', icon: 'linux', label: 'Linux (.rpm)' },
+  { os: 'linux-appimage', icon: 'linux', label: 'Linux (.AppImage)' },
+];
+
+const rowAlign = align === 'center' ? 'justify-center' : 'justify-start';
+const noteAlign = align === 'center' ? 'items-center text-center' : 'items-start text-left';
+---
+
+<div data-dl class="w-full">
+  <div class={`flex flex-wrap items-center gap-3 ${rowAlign}`}>
+    <div class="relative">
+      <div class="flex">
+        <!-- A plain link to the releases page until the script points it at
+             the right build, which is also what it stays as without one. -->
+        <a
+          href={RELEASES_URL}
+          data-dl-main
+          class="btn btn-primary"
+        >
+          <span data-dl-icon class="flex items-center" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" />
+            </svg>
+          </span>
+          <span data-dl-label>Download</span>
+        </a>
+        <button
+          type="button"
+          data-dl-toggle
+          aria-label="Choose platform"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          class="btn btn-primary border-l border-black/20 px-3"
+        >
+          <svg width="11" height="11" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div
+        data-dl-menu
+        role="listbox"
+        aria-label="Select platform"
+        class="hidden fade-in absolute left-0 top-full z-40 mt-1.5 w-60 border border-rail bg-panel text-left shadow-2xl shadow-black/80"
+      >
+        {options.map((option) => (
+          <button
+            type="button"
+            role="option"
+            aria-selected="false"
+            data-os={option.os}
+            class="dl-option flex w-full items-center gap-3 border-b border-line px-3.5 py-2.5 text-[12px] text-zinc-300 transition-colors last:border-0 hover:bg-raised hover:text-white cursor-pointer"
+          >
+            <span data-dl-platform={option.icon} class="flex items-center text-zinc-500" aria-hidden="true"></span>
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <slot />
+  </div>
+
+  <!-- macOS note: this is the step people skip. They install, launch, hit
+       Gatekeeper's "app is damaged" dialog, and assume the download failed. -->
+  <div data-dl-mac class={`hidden rise-in mt-6 flex-col gap-2 ${noteAlign}`}>
+    <p class="label text-zinc-400">run this after install</p>
+    <div class="inline-flex max-w-full items-center gap-2 border border-accent/30 bg-ink/80 py-1 pl-3.5 pr-1">
+      <code data-dl-cmd class="truncate text-[12px] text-zinc-200 select-all">xattr -cr /Applications/nuza.app</code>
+      <button
+        type="button"
+        data-dl-copy
+        aria-label="Copy command"
+        class="flex h-8 w-8 shrink-0 items-center justify-center text-zinc-400 transition-colors hover:bg-raised hover:text-white cursor-pointer"
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </button>
+    </div>
+    <p class="max-w-sm text-[11px] leading-relaxed text-zinc-400">
+      macOS blocks unsigned apps by default. Run this in Terminal to open it.
+    </p>
+  </div>
+</div>
