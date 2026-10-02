@@ -1,0 +1,82 @@
+---
+// Everything a page puts in <head> for search and sharing: title,
+// description, canonical, icons, Open Graph, Twitter and structured data.
+// Shared so every page says the same thing about the site the same way.
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Schema.org nodes for this page, added to the graph beside the site's own. */
+  structuredData?: Record<string, unknown>[];
+}
+
+const { title, description, structuredData = [] } = Astro.props;
+
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+const OG_IMAGE = `${SITE_URL}/banner.png`;
+const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with Vim keybindings';
+
+// One address per page, without a trailing slash except for the root, so the
+// canonical never disagrees with what the sitemap lists.
+const path = Astro.url.pathname.replace(/(.)\/$/, '$1');
+const PAGE_URL = `${SITE_URL}${path}`;
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': structuredData,
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content="nuza, obsidian alternative, lightweight obsidian alternative, simple note taking app, markdown note taking, markdown editor, open source note taking, vim notes app, local-first notes, privacy-first notes, notes app for developers, markdown app macOS, markdown app windows, markdown app linux" />
+<meta name="author" content="nuza" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow" />
+<link rel="canonical" href={PAGE_URL} />
+
+<!-- Icons: Google reads a size that is a multiple of 48px, and falls back to
+     /favicon.ico when none is declared. -->
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp, Slack, Telegram, iMessage, etc.) -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={PAGE_URL} />
+<meta property="og:site_name" content="nuza" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={OG_IMAGE} />
+<meta property="og:image:secure_url" content={OG_IMAGE} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1920" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content={IMAGE_ALT} />
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={PAGE_URL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={OG_IMAGE} />
+<meta name="twitter:image:alt" content={IMAGE_ALT} />
+
+<!-- Theming -->
+<meta name="theme-color" content="#090909" />
+<meta name="color-scheme" content="dark" />
+
+<!-- Perf: font preconnects (see global.css) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Structured data -->
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

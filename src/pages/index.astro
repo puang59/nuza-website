@@ -5,6 +5,7 @@ import LeftPanel from '../components/LeftPanel.astro';
 import AboutSection from '../components/AboutSection.astro';
 import PreviewsSection from '../components/PreviewsSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
+import SeoHead from '../components/SeoHead.astro';
 
 const changelogs = await fetchChangelog();
 const latestRelease = changelogs[0]?.release;
@@ -13,18 +14,14 @@ const latestVersion = latestRelease?.tag ? latestRelease.tag.replace(/^(app-)?v/
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
-const PAGE_URL = `${SITE_URL}${Astro.url.pathname}`;
 
 // No em dash in either: this is what a search result shows, and it reads
 // better as a plain sentence than as two halves.
 const TITLE = 'nuza: simple, lightweight Obsidian alternative for notes';
 const DESCRIPTION =
   'A simple, lightweight Obsidian alternative. nuza is a free, open-source markdown note taking app for macOS, Windows and Linux, with Vim keybindings.';
-const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with Vim keybindings';
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@graph': [
+const structuredData = [
     // Tells Google what to call the site. Without it, a subdomain is shown
     // under its parent domain's name instead of its own.
     {
@@ -70,64 +67,12 @@ const structuredData = {
       downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
       sameAs: ['https://github.com/puang59/nuza'],
     },
-  ],
-};
+  ];
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-
-    <!-- Primary -->
-    <title>{TITLE}</title>
-    <meta name="description" content={DESCRIPTION} />
-    <meta name="keywords" content="nuza, obsidian alternative, lightweight obsidian alternative, simple note taking app, markdown note taking, markdown editor, open source note taking, vim notes app, local-first notes, privacy-first notes, notes app for developers, markdown app macOS, markdown app windows, markdown app linux" />
-    <meta name="author" content="nuza" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow" />
-    <link rel="canonical" href={PAGE_URL} />
-
-    <!-- Icons -->
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-
-    <!-- Open Graph (Facebook, LinkedIn, Discord, WhatsApp, Slack, Telegram, iMessage, etc.) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={PAGE_URL} />
-    <meta property="og:site_name" content="nuza" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:title" content={TITLE} />
-    <meta property="og:description" content={DESCRIPTION} />
-    <meta property="og:image" content={OG_IMAGE} />
-    <meta property="og:image:secure_url" content={OG_IMAGE} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1920" />
-    <meta property="og:image:height" content="1080" />
-    <meta property="og:image:alt" content={IMAGE_ALT} />
-
-    <!-- Twitter / X -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={PAGE_URL} />
-    <meta name="twitter:title" content={TITLE} />
-    <meta name="twitter:description" content={DESCRIPTION} />
-    <meta name="twitter:image" content={OG_IMAGE} />
-    <meta name="twitter:image:alt" content={IMAGE_ALT} />
-
-    <!-- Theming -->
-    <meta name="theme-color" content="#090909" />
-    <meta name="color-scheme" content="dark" />
-
-    <!-- Perf: font preconnects (see global.css) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Structured data -->
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <SeoHead title={TITLE} description={DESCRIPTION} structuredData={structuredData} />
   </head>
 
   <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen" data-latest-version={latestVersion}>
