@@ -1,12 +1,13 @@
 ---
 import { fetchChangelog, versionFromTag } from '../lib/changelog';
 import Base from '../layouts/Base.astro';
+import { fetchStarCount } from '../lib/stars';
 import InfoSection from '../components/InfoSection.astro';
 import PreviewsSection from '../components/PreviewsSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
 import Ticker from '../components/Ticker.astro';
 
-const changelogs = await fetchChangelog();
+const [changelogs, stars] = await Promise.all([fetchChangelog(), fetchStarCount()]);
 const latestRelease = changelogs[0]?.release;
 
 // Empty when GitHub could not be reached at build time; the download buttons
@@ -92,7 +93,7 @@ const structuredData = [
   preloadImage="/bg.webp"
   version={latestVersion}
 >
-  <InfoSection version={latestVersion} />
+  <InfoSection version={latestVersion} stars={stars} />
   <Ticker />
   <PreviewsSection />
   <Ticker text="plain markdown · vim keybindings · local files" />
