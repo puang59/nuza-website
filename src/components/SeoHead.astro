@@ -16,10 +16,10 @@ const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puan
 const OG_IMAGE = `${SITE_URL}/banner.png`;
 const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with Vim keybindings';
 
-// One address per page, without a trailing slash except for the root, so the
-// canonical never disagrees with what the sitemap lists.
-const path = Astro.url.pathname.replace(/(.)\/$/, '$1');
-const PAGE_URL = `${SITE_URL}${path}`;
+// The pathname as it is built, trailing slash and all, which is also how the
+// sitemap lists it - a canonical that disagrees with the sitemap is a mixed
+// signal about which address is the real one.
+const PAGE_URL = `${SITE_URL}${Astro.url.pathname}`;
 
 const graph = {
   '@context': 'https://schema.org',

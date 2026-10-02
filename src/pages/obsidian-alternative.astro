@@ -1,0 +1,230 @@
+---
+import '../styles/global.css';
+import SeoHead from '../components/SeoHead.astro';
+
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+const PAGE_URL = `${SITE_URL}/obsidian-alternative/`;
+
+const TITLE = 'nuza: a simple, lightweight Obsidian alternative';
+const DESCRIPTION =
+  'nuza is a free, open-source markdown note taking app for macOS, Windows and Linux. See how it compares with Obsidian and who it is for.';
+
+// What each app does, said only where it is plain fact about both. The point
+// of the table is to help someone choose, so the rows nuza loses come first.
+const comparison = [
+  ['Plugins', 'None. What is built in is what you get.', 'A large community plugin ecosystem.'],
+  ['Graph view', 'No.', 'Yes.'],
+  ['Mobile apps', 'No. Desktop only.', 'iOS and Android.'],
+  ['Sync', 'None of its own. Use any folder sync you already trust.', 'Paid sync service available.'],
+  ['Source code', 'Open source, MIT license.', 'Closed source.'],
+  ['Built with', 'Tauri and Rust, using the webview your system already has.', 'Electron.'],
+  ['Your notes are', 'Markdown files in a folder you choose.', 'Markdown files in a vault folder.'],
+  ['Wiki-links and backlinks', 'Yes.', 'Yes.'],
+  ['Platforms', 'macOS, Windows, Linux.', 'macOS, Windows, Linux, iOS, Android.'],
+];
+
+const faqs = [
+  {
+    question: 'Is nuza a good Obsidian alternative?',
+    answer:
+      'It is if what you want from Obsidian is the writing: markdown notes in a folder, wiki-links, backlinks, search and tabs, in a smaller and quicker app. It is not if you rely on plugins, the graph view, or mobile apps, because nuza does not have them.',
+  },
+  {
+    question: 'Is nuza free?',
+    answer:
+      'Yes. nuza is free and open source under the MIT license, with no account and no subscription. The source is on GitHub.',
+  },
+  {
+    question: 'Can I open my Obsidian vault in nuza?',
+    answer:
+      'nuza opens any folder of markdown files, so you can point it at an existing vault. Wiki-links and frontmatter properties work. Anything that depends on an Obsidian plugin is not rendered.',
+  },
+  {
+    question: 'Does nuza have Vim keybindings?',
+    answer:
+      'Yes. Vim mode is built in. It is off until you turn it on in settings, so nobody gets it by surprise.',
+  },
+  {
+    question: 'Is nuza lightweight?',
+    answer:
+      'nuza is a Tauri app: a Rust backend with the webview your operating system already provides, instead of a bundled copy of a browser. It has no plugin system to load, which is part of why it stays small and starts quickly.',
+  },
+  {
+    question: 'Where are my notes stored, and does nuza sync them?',
+    answer:
+      'Your notes are plain markdown files in a folder on your computer. nuza does not upload them or sync them itself. If you want them on more than one machine, put the folder in iCloud Drive, Dropbox, Syncthing or whatever you already use.',
+  },
+  {
+    question: 'Which platforms does nuza run on?',
+    answer:
+      'macOS, Windows and Linux. Downloads are on the GitHub releases page.',
+  },
+];
+
+const structuredData = [
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    name: 'nuza',
+    alternateName: ['nuza notes', 'nuza markdown editor'],
+    url: `${SITE_URL}/`,
+  },
+  {
+    '@type': 'WebPage',
+    '@id': `${PAGE_URL}#page`,
+    url: PAGE_URL,
+    name: TITLE,
+    description: DESCRIPTION,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    about: { '@id': `${SITE_URL}/#app` },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'nuza', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Obsidian alternative', item: PAGE_URL },
+    ],
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <SeoHead title={TITLE} description={DESCRIPTION} structuredData={structuredData} />
+  </head>
+
+  <body class="bg-[#090909] text-neutral-200 font-mono min-h-screen">
+    <main class="mx-auto w-full max-w-2xl px-5 py-10 sm:px-8 sm:py-14">
+
+      <nav aria-label="Breadcrumb" class="mb-10">
+        <a href="/" class="inline-flex items-center gap-2.5 text-neutral-400 hover:text-neutral-200 transition-colors">
+          <img src="/logo.png" alt="" width="28" height="28" class="w-7 h-7 object-contain" />
+          <span class="font-sans text-lg font-bold tracking-tight text-white">nuza</span>
+        </a>
+      </nav>
+
+      <article class="space-y-12 text-[12px] sm:text-[12.5px] leading-[1.75] sm:leading-[1.8] text-neutral-400">
+
+        <header class="space-y-4">
+          <h1 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-white">
+            a simple, lightweight Obsidian alternative
+          </h1>
+          <p>
+            <strong class="text-neutral-200 font-normal">nuza</strong> is a free, open-source
+            markdown note taking app for macOS, Windows and Linux. your notes are plain files in
+            a folder on your computer, it opens quickly, and it has Vim keybindings built in.
+          </p>
+          <p>
+            it does less than Obsidian on purpose. this page is about what that means, so you
+            can tell whether it suits you.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 pt-2">
+            <a
+              href="https://github.com/puang59/nuza/releases/latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-neutral-200 text-neutral-900 px-6 py-2.5 text-xs font-bold hover:bg-white transition-colors tracking-wider text-center"
+            >
+              DOWNLOAD NUZA
+            </a>
+            <a
+              href="/"
+              class="border border-zinc-700 text-neutral-400 px-6 py-2.5 text-xs font-bold hover:bg-zinc-800/40 hover:text-neutral-200 transition-colors tracking-wider text-center"
+            >
+              SEE IT IN ACTION
+            </a>
+          </div>
+        </header>
+
+        <section class="space-y-4" aria-labelledby="what">
+          <h2 id="what" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">what you get</h2>
+          <ul class="space-y-2 list-disc pl-5 marker:text-zinc-700">
+            <li>markdown that renders as you type, with tables, tasks, images and frontmatter properties</li>
+            <li>wiki-links between notes, and backlinks to see what links to the note you have open</li>
+            <li>tabs, quick open, and search across the text of every note</li>
+            <li>Vim keybindings, off until you switch them on</li>
+            <li>light and dark themes, and an accent colour you choose</li>
+            <li>autosave, and your last session reopened when you come back</li>
+          </ul>
+        </section>
+
+        <section class="space-y-4" aria-labelledby="compare">
+          <h2 id="compare" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">
+            nuza and Obsidian, side by side
+          </h2>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[34rem] border-collapse text-left">
+              <caption class="sr-only">How nuza and Obsidian differ</caption>
+              <thead>
+                <tr class="border-b border-zinc-800 text-neutral-200">
+                  <th scope="col" class="py-2 pr-4 font-normal"><span class="sr-only">Feature</span></th>
+                  <th scope="col" class="py-2 pr-4 font-normal">nuza</th>
+                  <th scope="col" class="py-2 font-normal">Obsidian</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comparison.map(([feature, nuza, obsidian]) => (
+                  <tr class="border-b border-zinc-800/60 align-top">
+                    <th scope="row" class="py-2.5 pr-4 font-normal text-neutral-300">{feature}</th>
+                    <td class="py-2.5 pr-4">{nuza}</td>
+                    <td class="py-2.5">{obsidian}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="space-y-4" aria-labelledby="who">
+          <h2 id="who" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">who it is for</h2>
+          <p>
+            nuza suits you if you want to open a folder of markdown and write, and you would
+            rather have an app that is small, quick and does a few things well than one you
+            configure. it is a good fit for developers, and for anyone who wants Vim keys in
+            their notes.
+          </p>
+          <p>
+            stay with Obsidian if your notes depend on plugins, if you want a graph view, or if
+            you need your notes on a phone. those are real strengths and nuza does not try to
+            match them.
+          </p>
+        </section>
+
+        <section class="space-y-6" aria-labelledby="faq">
+          <h2 id="faq" class="text-[10px] uppercase tracking-[0.2em] text-zinc-500">questions</h2>
+          {faqs.map(({ question, answer }) => (
+            <div class="space-y-1.5">
+              <h3 class="text-neutral-200 font-normal">{question}</h3>
+              <p>{answer}</p>
+            </div>
+          ))}
+        </section>
+
+        <footer class="border-t border-zinc-800/40 pt-5 space-y-3 text-[10px] text-zinc-600">
+          <p>
+            <a href="/" class="hover:text-zinc-400 transition-colors">nuza</a> &middot;
+            <a
+              href="https://github.com/puang59/nuza"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-zinc-400 transition-colors"
+            >github</a> &middot; MIT License
+          </p>
+          <p>
+            Obsidian is a trademark of its owners. nuza is an independent project and is not
+            affiliated with or endorsed by Obsidian.
+          </p>
+        </footer>
+
+      </article>
+    </main>
+  </body>
+</html>
