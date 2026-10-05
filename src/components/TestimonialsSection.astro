@@ -1,0 +1,106 @@
+---
+// What people have said about nuza: replies to the team's posts on X, shown
+// as one marquee row that reuses the gallery's scrolling track (see
+// global.css). The text is kept here rather than loaded from X's embed
+// script, so the row costs no third-party JavaScript and cannot shift as
+// embeds load in.
+//
+// Each card links to the original post. The row is rendered twice back to
+// back so the loop has no seam; the second copy is hidden from assistive
+// tech and the tab order.
+
+const TESTIMONIALS = [
+  {
+    name: 'saksham',
+    handle: 'skshmgpt',
+    text: 'ts so good, i have ditched obsidian',
+    url: 'https://x.com/skshmgpt/status/2103413120744169620',
+    avatar: 'https://pbs.twimg.com/profile_images/2100547247041925120/0kBxFGbw_bigger.jpg',
+  },
+  {
+    name: 'Deepanshu Mishra',
+    handle: 'dipxsyy',
+    text: 'bro out there building the best obsidian alternative 🗣️',
+    url: 'https://x.com/dipxsyy/status/2105631200232776007',
+    avatar: 'https://pbs.twimg.com/profile_images/2084013187356393472/hG0_abwq_bigger.jpg',
+  },
+  {
+    name: 'chidam',
+    handle: 'Chidam333',
+    text: 'Tried it out a few days ago and really liked it. Good job',
+    url: 'https://x.com/Chidam333/status/2105652148730286441',
+    avatar: 'https://pbs.twimg.com/profile_images/1649956469838860288/DQpU0y6Q_bigger.jpg',
+  },
+  {
+    name: 'nexxel',
+    handle: 'nexxeln',
+    text: 'wow i like printing ntoes',
+    url: 'https://x.com/nexxeln/status/2105667475522326830',
+    avatar: 'https://pbs.twimg.com/profile_images/1642098866559541249/dFjXxmUZ_bigger.jpg',
+  },
+  {
+    name: 'anirudh',
+    handle: 'anirudhprmar',
+    text: 'sick!',
+    url: 'https://x.com/anirudhprmar/status/2105894145865011667',
+    avatar: 'https://pbs.twimg.com/profile_images/2093101081803022336/XcBQoarb_bigger.jpg',
+  },
+  {
+    name: 'Nasal Dragon',
+    handle: 'nasaldragon',
+    text: 'Damn!',
+    url: 'https://x.com/nasaldragon/status/2103392829548708291',
+    avatar: 'https://pbs.twimg.com/profile_images/2103793632335790080/9CnTARu1_bigger.jpg',
+  },
+];
+---
+
+<section id="testimonials" class="band" aria-labelledby="testimonials-title">
+  <div class="col overflow-hidden">
+    <div class="border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
+      <p class="label">Testimonials</p>
+      <h2 id="testimonials-title" class="heading mt-2 text-2xl sm:text-3xl">
+        Don't just take our word for it
+      </h2>
+      <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
+        A few things people have said about nuza on X.
+      </p>
+    </div>
+
+    <div class="py-6 sm:py-10" data-reveal style="--delay: 100ms">
+      <div class="pv-row no-scrollbar relative w-full overflow-hidden">
+        <div class="pv-row-track pv-row-left flex w-max items-stretch" style="--pv-duration: 50s">
+          {[false, true].map((duplicate) =>
+            TESTIMONIALS.map((t) => (
+              <a
+                href={t.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="box mr-4 flex w-72 shrink-0 flex-col justify-between gap-6 p-5 transition-colors hover:border-[#575757] sm:w-80"
+                aria-hidden={duplicate ? 'true' : undefined}
+                tabindex={duplicate ? -1 : undefined}
+              >
+                <p class="text-pretty text-[14px] leading-[1.7] text-zinc-200">{t.text}</p>
+                <div class="flex items-center gap-3">
+                  <img
+                    src={t.avatar}
+                    alt=""
+                    width="36"
+                    height="36"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-9 w-9 rounded-full bg-raised object-cover"
+                  />
+                  <div class="min-w-0 leading-tight">
+                    <p class="truncate text-[13px] font-medium text-white">{t.name}</p>
+                    <p class="truncate text-[12px] text-zinc-500">@{t.handle}</p>
+                  </div>
+                </div>
+              </a>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
