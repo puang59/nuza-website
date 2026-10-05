@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import { fetchStarCount } from '../lib/stars';
 import InfoSection from '../components/InfoSection.astro';
 import PreviewsSection from '../components/PreviewsSection.astro';
+import TestimonialsSection from '../components/TestimonialsSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
 import Ticker from '../components/Ticker.astro';
 
@@ -97,6 +98,8 @@ const structuredData = [
   <Ticker />
   <PreviewsSection />
   <Ticker text="plain markdown · vim keybindings · local files" />
+  <TestimonialsSection />
+  <Ticker />
   <ChangelogSection changelogs={changelogs} />
   <Ticker />
 
