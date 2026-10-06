@@ -88,7 +88,9 @@ const notes = [
       </p>
     </div>
 
-    <div class="rise-in mt-8 w-full" style="--delay: 240ms">
+    <!-- Raised above what follows: each `rise-in` block is its own stacking
+         layer, so without this the badge below paints over the open menu. -->
+    <div class="rise-in relative z-10 mt-8 w-full" style="--delay: 240ms">
       <DownloadButton>
         <a
           href="https://github.com/puang59/nuza"
