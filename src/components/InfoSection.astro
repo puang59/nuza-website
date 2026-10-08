@@ -115,21 +115,32 @@ const notes = [
       </DownloadButton>
     </div>
 
-    <a
-      class="rise-in mt-6 inline-block"
-      style="--delay: 320ms"
-      href="https://www.producthunt.com/products/nuza?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-nuza"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        alt="nuza - A simple, lightweight home for your markdown notes | Product Hunt"
-        width="250"
-        height="54"
-        loading="lazy"
-        src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1269961&theme=light&t=1791170302536"
-      />
-    </a>
+    <!-- Where nuza has been launched, side by side; they wrap to two rows
+         on a screen too narrow for both. -->
+    <div class="rise-in mt-6 inline-flex flex-wrap items-center gap-3" style="--delay: 320ms">
+      <a
+        href="https://www.producthunt.com/products/nuza?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-nuza"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          alt="nuza - A simple, lightweight home for your markdown notes | Product Hunt"
+          width="250"
+          height="54"
+          loading="lazy"
+          src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1269961&theme=light&t=1791170302536"
+        />
+      </a>
+      <a href="https://www.dotstore.io/launches/2026-w42/nuza" target="_blank" rel="noopener">
+        <img
+          alt="nuza on dotstore"
+          width="250"
+          height="56"
+          loading="lazy"
+          src="https://www.dotstore.io/launches/2026-w42/nuza/badge/light.svg"
+        />
+      </a>
+    </div>
   </div>
 </section>
 
