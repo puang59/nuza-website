@@ -1,0 +1,122 @@
+---
+// The bar across the top of every page: the logo, the site's few pages, and
+// a download button, pinned so they are there however far down a post goes.
+//
+// On a phone the pages fold into a menu. It is a native disclosure, so it
+// opens without a script; the script below only closes it again.
+
+const path = Astro.url.pathname;
+
+const links = [
+  { href: '/', label: 'Home', current: path === '/' },
+  { href: '/blog/', label: 'Blog', current: path.startsWith('/blog') },
+  {
+    href: '/obsidian-alternative/',
+    label: 'Obsidian alternative',
+    current: path.startsWith('/obsidian-alternative'),
+  },
+  { href: '/#changelog', label: 'Changelog', current: false },
+];
+---
+
+<nav
+  aria-label="Main"
+  class="fixed inset-x-0 top-0 z-[200] flex h-14 items-center border-b border-rail bg-ink px-3 text-white md:px-6"
+>
+  <div class="flex min-w-0 flex-1 items-center gap-2 md:gap-3">
+    <a href="/" class="flex shrink-0 items-center gap-2.5" aria-label="nuza home">
+      <img src="/logo.svg" alt="" width="28" height="28" class="h-7 w-7 object-contain" />
+      <span class="text-base font-bold tracking-tight text-white">nuza</span>
+    </a>
+    <span class="shrink-0 text-xl text-zinc-600 md:text-2xl" aria-hidden="true">/</span>
+
+    <ul class="ml-1 hidden items-center gap-6 text-[13px] md:flex">
+      {links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            aria-current={link.current ? 'page' : undefined}
+            class:list={[
+              'border-b-2 pb-0.5 transition-colors duration-200',
+              link.current
+                ? 'border-accent text-white'
+                : 'border-transparent text-zinc-400 hover:text-white',
+            ]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <details class="nav-menu relative ml-1 md:hidden">
+      <summary class="flex cursor-pointer list-none items-center gap-1.5 text-[13px] text-zinc-400 transition-colors hover:text-white">
+        Menu
+        <svg class="nav-menu-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+          <path d="M5 9l7 7 7-7" />
+        </svg>
+      </summary>
+      <ul class="absolute left-0 top-full mt-4 min-w-[12rem] border border-rail bg-panel p-1 shadow-lg">
+        {links.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={link.current ? 'page' : undefined}
+              class:list={[
+                'block px-4 py-2.5 text-[13px] transition-colors duration-200',
+                link.current ? 'bg-raised text-white' : 'text-zinc-400 hover:bg-raised hover:text-white',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </details>
+  </div>
+
+  <div class="flex shrink-0 items-center gap-3 md:gap-4">
+    <a
+      href="https://github.com/puang59/nuza"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hidden text-[13px] text-zinc-400 transition-colors duration-200 hover:text-white sm:inline"
+    >
+      star us on github
+    </a>
+    <a
+      href="https://github.com/puang59/nuza/releases/latest"
+      data-dl-quick
+      class="flex h-8 items-center bg-[#d9d9d9] px-3 text-xs font-medium text-ink transition-colors hover:bg-white md:px-4 md:text-[13px]"
+    >
+      download
+    </a>
+  </div>
+</nav>
+
+<script>
+  // The menu shuts when a click lands anywhere else, or on Escape.
+  const menu = document.querySelector<HTMLDetailsElement>('.nav-menu');
+  if (menu) {
+    document.addEventListener('click', (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') menu.open = false;
+    });
+  }
+</script>
+
+<style>
+  .nav-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav-menu-arrow {
+    transition: transform 0.2s var(--ease-out-soft);
+  }
+
+  .nav-menu[open] .nav-menu-arrow {
+    transform: rotate(180deg);
+  }
+</style>
