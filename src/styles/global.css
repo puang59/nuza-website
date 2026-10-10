@@ -46,8 +46,9 @@ body {
   outline-offset: 3px;
 }
 
+/* Clear of the navbar pinned to the top. */
 section[id] {
-  scroll-margin-top: 1rem;
+  scroll-margin-top: 4.5rem;
 }
 
 /* ------------------------------------------------------------------ */
