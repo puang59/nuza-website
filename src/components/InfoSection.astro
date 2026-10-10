@@ -1,7 +1,7 @@
 ---
-// The top of the page, in three stacked bands inside the column: the pitch
-// and the download buttons set over the painting, the intro video, and the
-// team's note about why nuza exists.
+// The top of the page, in two stacked bands inside the column: the pitch
+// and the download buttons set over the painting, and the team's note about
+// why nuza exists.
 //
 // The painting is clipped by its own layer rather than by the band, so the
 // platform menu can hang over the band's lower edge instead of being cut
@@ -48,7 +48,7 @@ const notes = [
           height="771"
           fetchpriority="high"
           decoding="async"
-          class="art-settle h-full w-full object-cover object-[18%_50%] sm:object-center"
+          class="art-settle h-full w-full object-cover object-[18%_50%] opacity-50 sm:object-center"
         />
       </picture>
       <div class="hero-scrim absolute inset-0" aria-hidden="true"></div>
@@ -145,70 +145,6 @@ const notes = [
   </div>
 </section>
 
-<!-- Intro video. It starts when it is about to scroll into view rather than
-     on page load (see src/scripts/demo-video.ts), so the first screen is not
-     competing with an 18 MB download. The video node itself is moved into
-     #demo-video-overlay on expand and back here on collapse, so there's only
-     ever one <video> (no duplicate load/playback to keep in sync). -->
-<section id="demo" class="band" aria-label="nuza intro video">
-  <div class="col px-4 py-10 sm:px-10 sm:py-16">
-    <div class="box mx-auto max-w-5xl" data-reveal>
-      <div class="flex items-center justify-between gap-4 border-b border-line px-4 py-2.5 text-[11px] text-zinc-500">
-        <span class="flex items-center gap-2 text-zinc-300">
-          <span class="h-1.5 w-1.5 bg-accent"></span>
-          nuza-intro.mp4
-        </span>
-        <span class="hidden uppercase tracking-[0.2em] sm:block">click to enlarge</span>
-      </div>
-
-      <div id="demo-video-slot" class="aspect-video w-full">
-        <div id="demo-video-stage" class="relative w-full">
-          <video
-            id="demo-video"
-            data-src="https://nuza-cdn.puang.in/nuza-intro-v3.mp4"
-            poster="/demo-poster.webp"
-            class="aspect-video w-full bg-panel object-cover cursor-zoom-in"
-            preload="none"
-            muted
-            loop
-            playsinline
-            disablePictureInPicture
-            disableRemotePlayback
-            controlsList="nodownload noplaybackrate nofullscreen"
-            tabindex="-1"
-            aria-label="nuza intro video: a note rendering as it is written, the vault's file tree beside it, open tabs across the top and Vim mode in the status bar"
-          ></video>
-
-          <button
-            id="demo-video-mute"
-            type="button"
-            aria-label="Unmute video"
-            aria-pressed="false"
-            class="absolute bottom-3 right-3 z-10 flex h-8 w-8 items-center justify-center border border-[#575757] bg-ink/80 text-zinc-200 transition-colors hover:bg-raised hover:text-white cursor-pointer"
-          >
-            <svg data-icon="muted" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>
-            <svg data-icon="unmuted" class="hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <noscript>
-      <p class="mt-4 text-center text-[12px] text-zinc-400">
-        <a href="https://nuza-cdn.puang.in/nuza-intro-v3.mp4" class="underline">Watch the nuza intro video</a>
-      </p>
-    </noscript>
-  </div>
-</section>
-
 <!-- A note from the team -->
 <section id="about" class="band" aria-labelledby="about-title">
   <div class="col">
@@ -230,13 +166,3 @@ const notes = [
     </div>
   </div>
 </section>
-
-<!-- Expanded demo video overlay: the stage (video + mute button) is
-     reparented in here on click. -->
-<div
-  id="demo-video-overlay"
-  class="hidden fade-in fixed inset-0 z-[200] items-center justify-center bg-black/90 p-4 backdrop-blur-sm cursor-zoom-out sm:p-10"
-  role="dialog"
-  aria-modal="true"
-  aria-label="nuza demo video, expanded"
-></div>
