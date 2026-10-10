@@ -17,7 +17,6 @@ const latestVersion = latestRelease?.tag ? versionFromTag(latestRelease.tag) : '
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
-const DEMO_VIDEO = 'https://nuza-cdn.puang.in/nuza-intro-v3.mp4';
 
 // No em dash in either: this is what a search result shows, and it reads
 // better as a plain sentence than as two halves.
@@ -73,17 +72,6 @@ const structuredData = [
     downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
     sameAs: ['https://github.com/puang59/nuza'],
   },
-  {
-    '@type': 'VideoObject',
-    '@id': `${SITE_URL}/#demo-video`,
-    name: 'nuza intro: a lightweight markdown note taking app',
-    description:
-      'A short tour of nuza: a note rendering as it is written, the file tree beside it, open tabs across the top and Vim mode in the status bar.',
-    thumbnailUrl: `${SITE_URL}/demo-poster.webp`,
-    contentUrl: DEMO_VIDEO,
-    uploadDate: '2026-10-01T09:50:49Z',
-    duration: 'PT44S',
-  },
 ];
 ---
 
@@ -103,6 +91,5 @@ const structuredData = [
   <ChangelogSection changelogs={changelogs} />
   <Ticker />
 
-  <script src="../scripts/demo-video.ts"></script>
   <script src="../scripts/previews.ts"></script>
 </Base>
