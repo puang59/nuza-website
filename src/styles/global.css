@@ -138,6 +138,130 @@ section[id] {
   }
 }
 
+/*
+ * A blog post's body. The markdown renders to bare elements, so they are
+ * styled from here rather than with a class on each.
+ */
+.post {
+  font-size: 0.875rem;
+  line-height: 1.9;
+  color: rgb(212, 212, 216);
+  overflow-wrap: break-word;
+}
+
+.post > * + * {
+  margin-top: 1.25rem;
+}
+
+.post h2 {
+  margin-top: 3rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.post h3 {
+  margin-top: 2.25rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.post strong {
+  font-weight: 600;
+  color: #fff;
+}
+
+.post a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 150, 150, 0.4);
+  text-underline-offset: 3px;
+}
+
+.post a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.post ul,
+.post ol {
+  padding-left: 1.5rem;
+}
+
+.post ul {
+  list-style: square;
+}
+
+.post ol {
+  list-style: decimal;
+}
+
+.post li + li {
+  margin-top: 0.5rem;
+}
+
+.post li::marker {
+  color: var(--color-accent);
+}
+
+.post blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1rem;
+  color: rgb(161, 161, 170);
+}
+
+.post :not(pre) > code {
+  border: 1px solid var(--color-line);
+  background: var(--color-raised);
+  padding: 0.1rem 0.35rem;
+  font-size: 0.8125rem;
+  color: #fff;
+}
+
+.post pre {
+  border: 1px solid var(--color-line);
+  /* Over the highlighter's own background, so a block matches the page. */
+  background: var(--color-panel) !important;
+  padding: 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+
+.post table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+
+.post th,
+.post td {
+  border: 1px solid var(--color-line);
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.post th {
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-panel);
+}
+
+.post hr {
+  margin-block: 2.5rem;
+  border: 0;
+  border-top: 1px solid var(--color-line);
+}
+
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 

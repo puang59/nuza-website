@@ -1,0 +1,110 @@
+---
+import { fetchLatestVersion } from '../../lib/changelog';
+import { fetchPosts, formatDate, postPath, readingMinutes } from '../../lib/blog';
+import Base from '../../layouts/Base.astro';
+import Ticker from '../../components/Ticker.astro';
+
+const [latestVersion, posts] = await Promise.all([fetchLatestVersion(), fetchPosts()]);
+
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+const PAGE_URL = `${SITE_URL}/blog/`;
+
+const TITLE = 'nuza blog: notes on markdown, Vim and local-first writing';
+const DESCRIPTION =
+  'Guides and notes from the makers of nuza on markdown note taking, Vim keybindings, linking notes, syncing plain files and building a lightweight desktop app.';
+
+const structuredData = [
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    name: 'nuza',
+    alternateName: ['nuza notes', 'nuza markdown editor'],
+    url: `${SITE_URL}/`,
+  },
+  {
+    '@type': 'Blog',
+    '@id': `${PAGE_URL}#blog`,
+    url: PAGE_URL,
+    name: TITLE,
+    description: DESCRIPTION,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    blogPost: posts.map((post) => ({
+      '@type': 'BlogPosting',
+      headline: post.data.title,
+      url: `${SITE_URL}${postPath(post)}`,
+      datePublished: post.data.pubDate.toISOString(),
+      author: { '@type': 'Person', name: post.data.author },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'nuza', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: PAGE_URL },
+    ],
+  },
+];
+---
+
+<Base title={TITLE} description={DESCRIPTION} structuredData={structuredData} version={latestVersion}>
+  <header class="band">
+    <div class="col px-5 py-14 sm:px-10 sm:py-20">
+      <div class="rise-in flex items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-3" aria-label="nuza home">
+          <img src="/logo.svg" alt="" width="32" height="32" class="h-8 w-8 object-contain" />
+          <span class="text-xl font-bold tracking-tight text-white">nuza</span>
+        </a>
+        <nav aria-label="Breadcrumb" class="label">
+          <a href="/" class="transition-colors hover:text-white">nuza</a>
+          <span class="mx-1.5 text-zinc-600" aria-hidden="true">//</span>
+          <span class="text-zinc-300" aria-current="page">Blog</span>
+        </nav>
+      </div>
+
+      <h1 class="rise-in heading mt-12 max-w-3xl text-balance text-[1.65rem] leading-[1.2] sm:text-4xl sm:leading-[1.15]" style="--delay: 80ms">
+        The nuza blog
+      </h1>
+
+      <p class="rise-in mt-6 max-w-2xl text-pretty text-[13px] leading-[1.8] text-zinc-300 sm:text-[14.5px]" style="--delay: 160ms">
+        Guides and notes on markdown note taking, Vim keybindings, linking notes together, keeping
+        plain files in sync, and what it takes to keep a desktop app small.
+      </p>
+    </div>
+  </header>
+
+  <section class="band" aria-labelledby="posts">
+    <div class="col">
+      <div class="border-b border-line px-5 py-5 sm:px-10">
+        <h2 id="posts" class="label">All posts</h2>
+      </div>
+      <ul>
+        {posts.map((post, i) => (
+          <li class="border-b border-line last:border-b-0">
+            <a
+              href={postPath(post)}
+              class="group block px-5 py-8 transition-colors hover:bg-raised sm:px-10"
+              data-reveal
+              style={`--delay: ${Math.min(i, 4) * 50}ms`}
+            >
+              <p class="label">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+                <span class="mx-1.5 text-zinc-600" aria-hidden="true">//</span>
+                {post.data.author}
+                <span class="mx-1.5 text-zinc-600" aria-hidden="true">//</span>
+                {readingMinutes(post)} min read
+              </p>
+              <h3 class="mt-3 max-w-3xl text-balance text-[15px] font-bold leading-[1.5] text-white group-hover:text-accent sm:text-lg">
+                {post.data.title}
+              </h3>
+              <p class="mt-2 max-w-3xl text-pretty text-[13px] leading-[1.8] text-zinc-400">
+                {post.data.description}
+              </p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Ticker />
+</Base>
