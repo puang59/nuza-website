@@ -25,9 +25,42 @@ const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with
 // signal about which address is the real one.
 const PAGE_URL = `${SITE_URL}${Astro.url.pathname}`;
 
+// The site's own entities, on every page. Pages add their own nodes beside
+// these and point at them by @id rather than restating them.
+const siteNodes = [
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
+    name: 'nuza',
+    alternateName: ['nuza notes', 'nuza markdown editor'],
+    url: `${SITE_URL}/`,
+    publisher: { '@id': `${SITE_URL}/#organization` },
+  },
+  // Named once, as the thing search engines attach the brand to. The nested
+  // author and publisher objects elsewhere point here instead of repeating it.
+  {
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'nuza',
+    url: `${SITE_URL}/`,
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${SITE_URL}/#logo`,
+      url: `${SITE_URL}/icon-512.png`,
+      width: 512,
+      height: 512,
+      caption: 'nuza',
+    },
+    image: { '@id': `${SITE_URL}/#logo` },
+    description:
+      'nuza is a free, open-source markdown note taking app for macOS, Windows and Linux.',
+    sameAs: ['https://github.com/puang59/nuza', 'https://github.com/puang59'],
+  },
+];
+
 const graph = {
   '@context': 'https://schema.org',
-  '@graph': structuredData,
+  '@graph': [...siteNodes, ...structuredData],
 };
 ---
 

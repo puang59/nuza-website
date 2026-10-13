@@ -1,5 +1,6 @@
 ---
 title: "Tauri vs Electron: why nuza is built with Tauri and Rust"
+seoTitle: "Tauri vs Electron for a lightweight notes app"
 description: "Why we chose Tauri and Rust over Electron for a lightweight markdown notes app, what the system webview buys you, and the trade-offs we accepted."
 pubDate: 2026-09-30
 author: puang

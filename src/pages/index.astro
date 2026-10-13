@@ -25,15 +25,6 @@ const DESCRIPTION =
   'A simple, lightweight Obsidian alternative. nuza is a free, open-source markdown note taking app for macOS, Windows and Linux, with Vim keybindings.';
 
 const structuredData = [
-  // Tells Google what to call the site. Without it, a subdomain is shown
-  // under its parent domain's name instead of its own.
-  {
-    '@type': 'WebSite',
-    '@id': `${SITE_URL}/#website`,
-    name: 'nuza',
-    alternateName: ['nuza notes', 'nuza markdown editor'],
-    url: `${SITE_URL}/`,
-  },
   {
     '@type': 'SoftwareApplication',
     '@id': `${SITE_URL}/#app`,
@@ -64,11 +55,8 @@ const structuredData = [
       price: '0',
       priceCurrency: 'USD',
     },
-    author: {
-      '@type': 'Organization',
-      name: 'nuza',
-      url: 'https://github.com/puang59/nuza',
-    },
+    author: { '@id': `${SITE_URL}/#organization` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
     downloadUrl: 'https://github.com/puang59/nuza/releases/latest',
     sameAs: ['https://github.com/puang59/nuza'],
   },

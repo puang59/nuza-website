@@ -1,5 +1,6 @@
 ---
 title: "Wiki-links and backlinks: how to link your notes so you can find them again"
+seoTitle: "Wiki-links and backlinks in markdown notes"
 description: "A practical guide to wiki-links and backlinks in markdown notes. Learn the syntax, when to link, how backlinks surface forgotten ideas, and habits that scale."
 pubDate: 2026-09-26
 author: puang

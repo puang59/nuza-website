@@ -9,6 +9,12 @@ const blog = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
+    /**
+     * The <title> for search, when the headline above is too long for one.
+     * Google shows about 60 characters, and the headline is written for a
+     * reader already on the page. Falls back to the title.
+     */
+    seoTitle: z.string().optional(),
     /** What a search result shows under the title. */
     description: z.string(),
     pubDate: z.coerce.date(),

@@ -1,5 +1,6 @@
 ---
 title: "Why we built nuza, a note taking app that does less on purpose"
+seoTitle: "Why we built nuza, a notes app that does less"
 description: "The story behind nuza: why we wanted a smaller, faster markdown note taking app, what we left out, and what we refused to compromise on."
 pubDate: 2026-09-14
 author: puang

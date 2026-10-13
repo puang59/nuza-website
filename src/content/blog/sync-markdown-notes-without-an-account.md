@@ -1,6 +1,7 @@
 ---
 title: "How to sync markdown notes between devices without an account"
-description: "Four ways to sync a folder of markdown notes across computers: iCloud Drive, Dropbox, Syncthing and git. How each works, their trade-offs, and how to avoid conflicts."
+seoTitle: "How to sync markdown notes without an account"
+description: "Four ways to sync a folder of markdown notes across computers: iCloud Drive, Dropbox, Syncthing and git, and how to avoid conflicts."
 pubDate: 2026-10-06
 author: puang
 ---
