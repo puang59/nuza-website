@@ -13,7 +13,7 @@ function escaped(text: string): string {
 }
 
 export const GET: APIRoute = async ({ site }) => {
-  const base = site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+  const base = site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
   const posts = await fetchPosts();
 
   const items = posts

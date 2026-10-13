@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://nuza.puang.in',
+  site: 'https://www.nuza.org',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]

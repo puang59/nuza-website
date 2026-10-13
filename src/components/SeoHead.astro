@@ -16,7 +16,7 @@ export interface Props {
 
 const { title, description, structuredData = [], preloadImage, article } = Astro.props;
 
-const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
 const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with Vim keybindings';
 

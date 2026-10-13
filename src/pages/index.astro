@@ -15,7 +15,7 @@ const latestRelease = changelogs[0]?.release;
 // then link to the releases page instead of guessing at a file name.
 const latestVersion = latestRelease?.tag ? versionFromTag(latestRelease.tag) : '';
 
-const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
 const OG_IMAGE = `${SITE_URL}/banner.png`;
 
 // No em dash in either: this is what a search result shows, and it reads

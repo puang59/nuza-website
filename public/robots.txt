@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nuza.puang.in/sitemap-index.xml
+Sitemap: https://www.nuza.org/sitemap-index.xml

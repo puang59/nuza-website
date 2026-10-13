@@ -24,7 +24,7 @@ const { title, description, pubDate, author, mentionsObsidian } = post.data;
 
 const [latestVersion, { Content }] = await Promise.all([fetchLatestVersion(), render(post)]);
 
-const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://nuza.puang.in';
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
 const BLOG_URL = `${SITE_URL}/blog/`;
 const PAGE_URL = `${SITE_URL}${postPath(post)}`;
 const published = pubDate.toISOString();
