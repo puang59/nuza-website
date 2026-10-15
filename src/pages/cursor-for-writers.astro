@@ -34,6 +34,17 @@ const comparison = [
   ['When it is on', 'Only when you turn it on. AI is off by default, and nuza works fully without it.'],
 ];
 
+// Longer reads on using the panel, for whoever came here with a particular kind of writing in mind.
+const guides = [
+  { href: '/blog/how-writers-use-ai-without-losing-their-voice/', title: 'How writers can use AI without losing their voice' },
+  { href: '/blog/claude-code-codex-opencode-for-writing/', title: 'Use Claude Code, Codex or OpenCode as a writing assistant' },
+  { href: '/blog/ai-study-notes-for-students/', title: 'Studying with AI: better notes, not someone else\'s homework' },
+  { href: '/blog/ai-research-notes-with-backlinks/', title: 'Research notes with AI: ask questions across your whole vault' },
+  { href: '/blog/ai-for-developer-docs-in-markdown/', title: 'AI for READMEs, design docs and runbooks' },
+  { href: '/blog/ai-meeting-notes-in-markdown/', title: 'From messy meeting notes to decisions and action items' },
+  { href: '/blog/private-ai-note-taking-with-local-markdown/', title: 'Private AI note taking: what it should and should not see' },
+];
+
 const faqs = [
   {
     question: 'What does "Cursor for writers" mean?',
@@ -199,6 +210,24 @@ const structuredData = [
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="guides">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="guides" class="label">Guides</h2>
+        </div>
+        <ul class="grid sm:grid-cols-2">
+          {guides.map((guide) => (
+            <li class="border-b border-line sm:odd:border-r">
+              <a href={guide.href} class="group flex h-full items-start gap-3 px-5 py-5 text-[13px] leading-[1.7] text-zinc-300 transition-colors hover:bg-raised hover:text-white sm:px-10">
+                <span class="mt-[0.55rem] h-1.5 w-1.5 shrink-0 bg-accent" aria-hidden="true"></span>
+                {guide.title}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
 

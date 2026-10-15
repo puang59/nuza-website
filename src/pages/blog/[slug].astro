@@ -20,7 +20,11 @@ export interface Props {
 }
 
 const { post, others } = Astro.props;
-const { title, seoTitle, description, pubDate, author, mentionsObsidian } = post.data;
+const { title, seoTitle, description, pubDate, author, mentionsObsidian, trademarks } = post.data;
+// Every product the post names, for the line at the foot of the page.
+const named = [...trademarks, ...(mentionsObsidian ? ['Obsidian'] : [])];
+const namedList =
+  named.length < 2 ? named.join('') : `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}`;
 
 const [latestVersion, { Content }] = await Promise.all([fetchLatestVersion(), render(post)]);
 
@@ -130,10 +134,10 @@ const structuredData = [
 
   <Ticker />
 
-  {mentionsObsidian && (
+  {named.length > 0 && (
     <p slot="footer-note" class="mt-6 border-t border-white/10 pt-4 text-center text-[10px] leading-relaxed text-zinc-400 md:text-left">
-      Obsidian is a trademark of its owners. nuza is an independent project and is not affiliated
-      with or endorsed by Obsidian.
+      {namedList} {named.length === 1 ? 'is a trademark' : 'are trademarks'} of {named.length === 1 ? 'its' : 'their'} owners.
+      nuza is an independent project and is not affiliated with or endorsed by {named.length === 1 ? named[0] : 'any of them'}.
     </p>
   )}
 </Base>
