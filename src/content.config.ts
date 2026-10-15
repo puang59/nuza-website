@@ -1,5 +1,5 @@
 // The blog: one markdown file per post under src/content/blog, named for the
-// address it is served at.
+// address it is served at. And the docs, the same way.
 
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
@@ -24,4 +24,18 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// The docs: one markdown file per page under src/content/docs, served at
+// /docs/<name>/.
+const docs = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/docs' }),
+  schema: z.object({
+    title: z.string(),
+    /** The <title> for search, when the title alone says too little. */
+    seoTitle: z.string().optional(),
+    description: z.string(),
+    /** When the page last changed, as the reader should know it. */
+    updated: z.coerce.date(),
+  }),
+});
+
+export const collections = { blog, docs };
