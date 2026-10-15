@@ -54,7 +54,7 @@ const changelog = { href: '/#changelog', label: 'Changelog', current: false };
             href={link.href}
             aria-current={link.current ? 'page' : undefined}
             class:list={[
-              'border-b-2 pb-0.5 transition-colors duration-200',
+              'block border-b-2 pb-0.5 leading-5 transition-colors duration-200',
               link.current
                 ? 'border-accent text-white'
                 : 'border-transparent text-zinc-400 hover:text-white',
@@ -68,12 +68,12 @@ const changelog = { href: '/#changelog', label: 'Changelog', current: false };
         <details class="nav-menu relative">
           <summary
             class:list={[
-              'flex cursor-pointer list-none items-baseline gap-1.5 border-b-2 pb-0.5 transition-colors duration-200',
+              'flex cursor-pointer list-none items-center gap-1.5 border-b-2 pb-0.5 leading-5 transition-colors duration-200',
               inWhy ? 'border-accent text-white' : 'border-transparent text-zinc-400 hover:text-white',
             ]}
           >
             Why nuza
-            <svg class="nav-menu-arrow self-center" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+            <svg class="nav-menu-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
               <path d="M5 9l7 7 7-7" />
             </svg>
           </summary>
@@ -97,7 +97,7 @@ const changelog = { href: '/#changelog', label: 'Changelog', current: false };
         </details>
       </li>
       <li>
-        <a href={changelog.href} class="border-b-2 border-transparent pb-0.5 text-zinc-400 transition-colors duration-200 hover:text-white">
+        <a href={changelog.href} class="block border-b-2 border-transparent pb-0.5 leading-5 text-zinc-400 transition-colors duration-200 hover:text-white">
           {changelog.label}
         </a>
       </li>
