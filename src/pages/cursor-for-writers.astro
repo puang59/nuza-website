@@ -1,0 +1,223 @@
+---
+import { fetchLatestVersion } from '../lib/changelog';
+import Base from '../layouts/Base.astro';
+import FaqSection from '../components/FaqSection.astro';
+import Ticker from '../components/Ticker.astro';
+
+const latestVersion = await fetchLatestVersion();
+
+const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
+const PAGE_URL = `${SITE_URL}/cursor-for-writers/`;
+
+const TITLE = 'nuza: Cursor for writers, with the AI agent you already have';
+const DESCRIPTION =
+  'nuza is a markdown editor with an AI panel for your writing: rephrase, proofread and explain, with edits you accept one by one. It uses Claude Code, Codex or OpenCode on your own plan.';
+
+// What the panel does, in the order a writer would reach for it.
+const features = [
+  'Ask about the note you are in with ⌘L (Ctrl+L on Windows and Linux). Your selection goes along with it',
+  'Rephrase, find a synonym, proofread, improve, or explain a passage in the context of the whole note',
+  'Changes come back as suggestions in the note, to accept or reject one by one. ⌘Z undoes any of them',
+  'Ask it to look through your other notes, and it cites them. A citation opens the note at the paragraph',
+  'Ask for a new note, and it drafts one with frontmatter, tables or math, linked both ways with [[wiki links]]',
+  'Your own instructions for how it writes, and a short memory per folder, kept on your computer',
+];
+
+// The idea, side by side: Cursor brought an agent into the editor for code,
+// nuza brings one into the editor for prose. Plain fact about nuza only.
+const comparison = [
+  ['What you work on', 'Plain markdown notes in a folder on your computer.'],
+  ['The AI', 'An agent you already have: Claude Code, Codex, OpenCode, or any Agent Client Protocol agent.'],
+  ['What it costs', 'nuza is free. The agent runs on your own plan with its provider.'],
+  ['Edits', 'Suggested in place, accepted one at a time. Nothing changes without you.'],
+  ['What it can touch', 'Nothing but what you send it. It cannot run commands or write files, and on macOS and Linux the operating system fences it in.'],
+  ['When it is on', 'Only when you turn it on. AI is off by default, and nuza works fully without it.'],
+];
+
+const faqs = [
+  {
+    question: 'What does "Cursor for writers" mean?',
+    answer:
+      'Cursor put an AI agent inside a code editor, next to what you are working on. nuza does the same for writing: an agent in the panel beside your note, which knows the note and your selection, and suggests changes you accept in place.',
+  },
+  {
+    question: 'Do I need an account or an API key?',
+    answer:
+      'No. nuza has no account and holds no key. It uses an agent already on your computer, signed in with your own plan: Claude Code, Codex or OpenCode. OpenCode also has free models.',
+  },
+  {
+    question: 'Will the AI change my notes without asking?',
+    answer:
+      'No. Every change comes back as a suggestion shown in the note, which you accept or reject one by one. A new note is only made when you press Create, and never over one that is already there.',
+  },
+  {
+    question: 'What is sent, and where?',
+    answer:
+      'Only when you ask something: your question, the note you are asking about with your selection marked, and your instructions and memory. They go to the agent you turned on, which sends them to its provider on your account. nuza has no server of its own.',
+  },
+  {
+    question: 'Can I use nuza without AI?',
+    answer:
+      'Yes. AI is optional and off until you turn it on in Settings. Until then there is no panel, and nuza never looks for or starts an agent.',
+  },
+  {
+    question: 'Can it write anything I ask?',
+    answer:
+      'It is there for your notes and your writing, and turns down requests that have nothing to do with them. It can still be wrong, so read a suggestion before you accept it.',
+  },
+];
+
+const structuredData = [
+  {
+    '@type': 'WebPage',
+    '@id': `${PAGE_URL}#page`,
+    url: PAGE_URL,
+    name: TITLE,
+    description: DESCRIPTION,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    about: { '@id': `${SITE_URL}/#app` },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'nuza', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Cursor for writers', item: PAGE_URL },
+    ],
+  },
+];
+---
+
+<Base title={TITLE} description={DESCRIPTION} structuredData={structuredData} version={latestVersion}>
+  <article>
+
+    <header class="band">
+      <div class="col px-5 py-12 sm:px-10 sm:py-16">
+        <div class="rise-in">
+          <nav aria-label="Breadcrumb" class="label">
+            <a href="/" class="transition-colors hover:text-white">nuza</a>
+            <span class="mx-1.5 text-zinc-600" aria-hidden="true">//</span>
+            <span class="text-zinc-300" aria-current="page">Cursor for writers</span>
+          </nav>
+        </div>
+
+        <h1 class="rise-in heading mt-6 max-w-3xl text-balance text-[1.65rem] leading-[1.2] sm:text-4xl sm:leading-[1.15]" style="--delay: 80ms">
+          Cursor for writers
+        </h1>
+
+        <div class="rise-in mt-6 max-w-2xl space-y-3 text-pretty text-[13px] leading-[1.8] text-zinc-300 sm:text-[14.5px]" style="--delay: 160ms">
+          <p>
+            <strong class="font-medium text-white">nuza</strong> is a markdown editor with an AI agent
+            beside your note. Ask it to rephrase, proofread or explain, and its changes come back as
+            suggestions in the note, for you to accept one by one.
+          </p>
+          <p class="text-zinc-400">
+            It uses the agent you already have, Claude Code, Codex or OpenCode, on your own plan. No
+            account, no key, no server of ours. And it is off until you turn it on.
+          </p>
+        </div>
+
+        <div class="rise-in mt-8 flex flex-wrap gap-3" style="--delay: 240ms">
+          <a href="https://github.com/puang59/nuza/releases/latest" data-dl-quick class="btn btn-primary">
+            Download nuza
+          </a>
+          <a href="/docs/ai/" class="btn btn-ghost">How the AI works</a>
+        </div>
+      </div>
+    </header>
+
+    <section class="band" aria-labelledby="what">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="what" class="label">What it does for your writing</h2>
+        </div>
+        <ul class="grid sm:grid-cols-2">
+          {features.map((feature) => (
+            <li class="flex items-start gap-3 border-b border-line px-5 py-5 text-[13px] leading-[1.8] text-zinc-300 sm:px-10 sm:odd:border-r sm:[&:nth-last-child(-n+2)]:border-b-0">
+              <span class="mt-[0.55rem] h-1.5 w-1.5 shrink-0 bg-accent" aria-hidden="true"></span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="how">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="how" class="label">How it works</h2>
+        </div>
+        <div class="px-4 py-6 sm:px-10 sm:py-10" data-reveal>
+          <div class="box thin-scrollbar overflow-x-auto">
+            <table class="w-full min-w-[30rem] border-collapse text-left text-[13px] leading-[1.7]">
+              <caption class="sr-only">How the AI in nuza works</caption>
+              <tbody>
+                {comparison.map(([aspect, nuza]) => (
+                  <tr class="border-b border-line align-top transition-colors last:border-0 hover:bg-raised">
+                    <th scope="row" class="w-[32%] px-4 py-3.5 font-medium text-zinc-100 sm:px-6">{aspect}</th>
+                    <td class="border-l border-line px-4 py-3.5 text-zinc-300 sm:px-6">{nuza}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="who">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="who" class="label">Who it is for</h2>
+        </div>
+        <div class="grid md:grid-cols-2">
+          <div class="border-b border-line px-5 py-8 sm:px-10 md:border-b-0 md:border-r md:py-10">
+            <div data-reveal>
+              <h3 class="text-[13px] font-bold uppercase tracking-[0.08em] text-white">Writers who want help, not a ghostwriter</h3>
+              <p class="mt-4 text-[13px] leading-[1.85] text-zinc-400">
+                Blog posts, essays, docs, research notes. You write; the agent tightens a sentence,
+                finds the word, catches the typo, or explains a passage back to you. You decide what
+                stays.
+              </p>
+            </div>
+          </div>
+          <div class="px-5 py-8 sm:px-10 md:py-10">
+            <div data-reveal style="--delay: 90ms">
+              <h3 class="text-[13px] font-bold uppercase tracking-[0.08em] text-white">And an Obsidian alternative</h3>
+              <p class="mt-4 text-[13px] leading-[1.85] text-zinc-400">
+                Under the panel, nuza is a small, quick markdown editor for a folder of notes, with
+                wiki-links, backlinks, search and Vim keys.
+                <a href="/obsidian-alternative/" class="text-zinc-200 underline underline-offset-4 hover:text-white">How it compares with Obsidian</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="faq">
+      <div class="col">
+        <div class="border-b border-line px-5 py-5 sm:px-10">
+          <h2 id="faq" class="label">Questions</h2>
+        </div>
+        <div class="mx-auto max-w-3xl px-4 py-6 sm:px-10 sm:py-10">
+          <FaqSection faqs={faqs} openFirst />
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <Ticker text="cursor for writers · obsidian alternative · open source" />
+
+  <p slot="footer-note" class="mt-6 border-t border-white/10 pt-4 text-center text-[10px] leading-relaxed text-zinc-400 md:text-left">
+    Cursor, Claude Code, Codex, OpenCode and Obsidian are trademarks of their owners. nuza is an
+    independent project and is not affiliated with or endorsed by any of them.
+  </p>
+</Base>
