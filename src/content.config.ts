@@ -21,6 +21,8 @@ const blog = defineCollection({
     author: z.string().default('puang'),
     /** Says the post is about Obsidian, which is not ours to speak for. */
     mentionsObsidian: z.boolean().default(false),
+    /** Other products the post names, each a trademark of its owners. */
+    trademarks: z.array(z.string()).default([]),
   }),
 });
 

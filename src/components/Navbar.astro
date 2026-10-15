@@ -2,7 +2,7 @@
 // The bar across the top of every page: the logo, the site's few pages, and
 // a download button, pinned so they are there however far down a post goes.
 //
-// On a phone or a narrow window the pages fold into a menu. It is a native disclosure, so it
+// On a phone the pages fold into a menu. It is a native disclosure, so it
 // opens without a script; the script below only closes it again.
 
 const path = Astro.url.pathname;
@@ -10,18 +10,30 @@ const path = Astro.url.pathname;
 const links = [
   { href: '/', label: 'Home', current: path === '/' },
   { href: '/blog/', label: 'Blog', current: path.startsWith('/blog') },
+];
+
+// The pages that say what nuza is next to the apps people come from, under
+// one heading rather than two names side by side in the bar.
+const why = [
   {
     href: '/cursor-for-writers/',
     label: 'Cursor for writers',
-    current: path.startsWith('/cursor-for-writers'),
+    detail: 'An AI agent beside your note, with edits you accept',
   },
   {
     href: '/obsidian-alternative/',
     label: 'Obsidian alternative',
-    current: path.startsWith('/obsidian-alternative'),
+    detail: 'How nuza compares, and who it suits',
   },
-  { href: '/#changelog', label: 'Changelog', current: false },
-];
+  {
+    href: '/docs/ai/',
+    label: 'How the AI works',
+    detail: 'What it is sent, and what it can never do',
+  },
+].map((item) => ({ ...item, current: path.startsWith(item.href) }));
+const inWhy = why.some((item) => item.current);
+
+const changelog = { href: '/#changelog', label: 'Changelog', current: false };
 ---
 
 <nav
@@ -35,7 +47,7 @@ const links = [
     </a>
     <span class="shrink-0 text-xl text-zinc-600 md:text-2xl" aria-hidden="true">/</span>
 
-    <ul class="ml-1 hidden items-center gap-6 whitespace-nowrap text-[13px] lg:flex">
+    <ul class="ml-1 hidden items-center gap-6 whitespace-nowrap text-[13px] md:flex">
       {links.map((link) => (
         <li>
           <a
@@ -52,18 +64,55 @@ const links = [
           </a>
         </li>
       ))}
+      <li>
+        <details class="nav-menu relative">
+          <summary
+            class:list={[
+              'flex cursor-pointer list-none items-baseline gap-1.5 border-b-2 pb-0.5 transition-colors duration-200',
+              inWhy ? 'border-accent text-white' : 'border-transparent text-zinc-400 hover:text-white',
+            ]}
+          >
+            Why nuza
+            <svg class="nav-menu-arrow self-center" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
+              <path d="M5 9l7 7 7-7" />
+            </svg>
+          </summary>
+          <ul class="absolute left-0 top-full mt-4 w-[19rem] whitespace-normal border border-rail bg-panel p-1 shadow-lg">
+            {why.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={item.current ? 'page' : undefined}
+                  class:list={[
+                    'block px-4 py-2.5 transition-colors duration-200',
+                    item.current ? 'bg-raised' : 'hover:bg-raised',
+                  ]}
+                >
+                  <span class="block text-[13px] text-white">{item.label}</span>
+                  <span class="mt-0.5 block text-[11px] leading-snug text-zinc-500">{item.detail}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </li>
+      <li>
+        <a href={changelog.href} class="border-b-2 border-transparent pb-0.5 text-zinc-400 transition-colors duration-200 hover:text-white">
+          {changelog.label}
+        </a>
+      </li>
     </ul>
 
-    <details class="nav-menu relative ml-1 lg:hidden">
+    <details class="nav-menu relative ml-1 md:hidden">
       <summary class="flex cursor-pointer list-none items-center gap-1.5 text-[13px] text-zinc-400 transition-colors hover:text-white">
         Menu
         <svg class="nav-menu-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">
           <path d="M5 9l7 7 7-7" />
         </svg>
       </summary>
-      <ul class="absolute left-0 top-full mt-4 min-w-[12rem] border border-rail bg-panel p-1 shadow-lg">
-        {links.map((link) => (
-          <li>
+      <ul class="absolute left-0 top-full mt-4 min-w-[14rem] border border-rail bg-panel p-1 shadow-lg">
+        {[...links, ...why, changelog].map((link, index) => (
+          <li class:list={[(index === links.length || index === links.length + why.length) && 'mt-1 border-t border-rail pt-1']}>
             <a
               href={link.href}
               aria-current={link.current ? 'page' : undefined}
@@ -100,16 +149,15 @@ const links = [
 </nav>
 
 <script>
-  // The menu shuts when a click lands anywhere else, or on Escape.
-  const menu = document.querySelector<HTMLDetailsElement>('.nav-menu');
-  if (menu) {
-    document.addEventListener('click', (event) => {
-      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') menu.open = false;
-    });
-  }
+  // A menu shuts when a click lands anywhere else, or on Escape - and opening
+  // one shuts the other.
+  const menus = [...document.querySelectorAll<HTMLDetailsElement>('.nav-menu')];
+  document.addEventListener('click', (event) => {
+    for (const menu of menus) if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') for (const menu of menus) menu.open = false;
+  });
 </script>
 
 <style>
