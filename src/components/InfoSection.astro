@@ -71,27 +71,28 @@ const notes = [
 
     <h1
       id="hero-title"
-      class="rise-in heading mt-7 max-w-4xl text-balance text-[1.65rem] leading-[1.2] sm:text-4xl sm:leading-[1.15] lg:text-[2.6rem]"
+      class="rise-in heading hero-shadow mt-7 max-w-4xl text-balance text-[1.65rem] leading-[1.2] sm:text-4xl sm:leading-[1.15] lg:text-[2.6rem]"
       style="--delay: 80ms"
     >
-      Cursor for writers. A lightweight home for your markdown notes.
+      <!-- Each name beside its app's icon, the words between them a shade
+           back. The icons are decoration: the names say it. -->
+      <span class="text-zinc-400">If</span>{' '}
+      <span class="whitespace-nowrap"><img src="/logo-cursor.webp" alt="" width="128" height="128" class="mr-[0.2em] inline-block h-[1.15em] w-auto align-[-0.22em]" />Cursor</span>{' '}
+      <span class="text-zinc-400">and</span>{' '}
+      <span class="whitespace-nowrap"><img src="/logo-obsidian.webp" alt="" width="128" height="128" class="mr-[0.2em] inline-block h-[1.15em] w-auto align-[-0.22em]" />Obsidian</span>{' '}
+      had a baby
     </h1>
 
-    <div
-      class="rise-in mt-6 max-w-3xl text-pretty text-[13px] leading-[1.8] text-zinc-300 sm:text-[14.5px]"
+    <p
+      class="rise-in hero-shadow mt-6 max-w-2xl text-pretty text-[13px] leading-[1.8] text-zinc-300 sm:text-[14.5px]"
       style="--delay: 160ms"
     >
-      <p>
-        <strong class="font-medium text-white">nuza</strong> is a lightning-fast, privacy-first,
-        open-source <a href="/obsidian-alternative/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">alternative to Obsidian</a>. A lightweight markdown editor for macOS, Windows and
-        Linux with native Vim keybindings and plain local files, without the bloat.
-      </p>
-      <p class="mt-3">
-        And <a href="/cursor-for-writers/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Cursor for writers</a>:
-        an optional AI panel that rephrases, proofreads and explains your writing with the agent you
-        already have, and suggests edits you accept one by one.
-      </p>
-    </div>
+      <strong class="font-medium text-white">nuza</strong> is a fast, open-source{' '}
+      <a href="/obsidian-alternative/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Obsidian alternative</a>{' '}
+      for macOS, Windows and Linux: plain local markdown files, Vim keybindings, no bloat. Its optional
+      AI panel is <a href="/cursor-for-writers/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Cursor for writers</a>,
+      suggesting edits you accept one by one.
+    </p>
 
     <!-- Raised above what follows: each `rise-in` block is its own stacking
          layer, so without this the badge below paints over the open menu. -->
