@@ -2,7 +2,7 @@
 // The bar across the top of every page: the logo, the site's few pages, and
 // a download button, pinned so they are there however far down a post goes.
 //
-// On a phone the pages fold into a menu. It is a native disclosure, so it
+// On a phone or a narrow window the pages fold into a menu. It is a native disclosure, so it
 // opens without a script; the script below only closes it again.
 
 const path = Astro.url.pathname;
@@ -10,6 +10,11 @@ const path = Astro.url.pathname;
 const links = [
   { href: '/', label: 'Home', current: path === '/' },
   { href: '/blog/', label: 'Blog', current: path.startsWith('/blog') },
+  {
+    href: '/cursor-for-writers/',
+    label: 'Cursor for writers',
+    current: path.startsWith('/cursor-for-writers'),
+  },
   {
     href: '/obsidian-alternative/',
     label: 'Obsidian alternative',
@@ -30,7 +35,7 @@ const links = [
     </a>
     <span class="shrink-0 text-xl text-zinc-600 md:text-2xl" aria-hidden="true">/</span>
 
-    <ul class="ml-1 hidden items-center gap-6 text-[13px] md:flex">
+    <ul class="ml-1 hidden items-center gap-6 whitespace-nowrap text-[13px] lg:flex">
       {links.map((link) => (
         <li>
           <a
@@ -49,7 +54,7 @@ const links = [
       ))}
     </ul>
 
-    <details class="nav-menu relative ml-1 md:hidden">
+    <details class="nav-menu relative ml-1 lg:hidden">
       <summary class="flex cursor-pointer list-none items-center gap-1.5 text-[13px] text-zinc-400 transition-colors hover:text-white">
         Menu
         <svg class="nav-menu-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" aria-hidden="true">

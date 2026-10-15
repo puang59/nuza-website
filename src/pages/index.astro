@@ -20,9 +20,9 @@ const OG_IMAGE = `${SITE_URL}/banner.png`;
 
 // No em dash in either: this is what a search result shows, and it reads
 // better as a plain sentence than as two halves.
-const TITLE = 'nuza: simple, lightweight Obsidian alternative for notes';
+const TITLE = 'nuza: Cursor for writers, and a lightweight Obsidian alternative';
 const DESCRIPTION =
-  'A simple, lightweight Obsidian alternative. nuza is a free, open-source markdown note taking app for macOS, Windows and Linux, with Vim keybindings.';
+  'Cursor for writers, and a lightweight Obsidian alternative. nuza is a free, open-source markdown editor for macOS, Windows and Linux, with an optional AI panel that uses the agent you already have.';
 
 const structuredData = [
   {
@@ -48,6 +48,8 @@ const structuredData = [
       'Quick open and tabs',
       'Live rendering of tables, tasks, images and code blocks',
       'Light and dark themes',
+      'Optional AI panel: rephrase, proofread and explain with Claude Code, Codex or OpenCode',
+      'AI edits suggested in place and accepted one by one',
       'Open source under the MIT license',
     ],
     offers: {
@@ -73,7 +75,7 @@ const structuredData = [
   <InfoSection version={latestVersion} stars={stars} />
   <Ticker />
   <PreviewsSection />
-  <Ticker text="plain markdown · vim keybindings · local files" />
+  <Ticker text="cursor for writers · obsidian alternative · local files" />
   <TestimonialsSection />
   <Ticker />
   <ChangelogSection changelogs={changelogs} />

@@ -5,8 +5,6 @@ description: How nuza's AI panel works with Claude Code, Codex or OpenCode on yo
 updated: 2026-10-15
 ---
 
-> The AI panel arrives in nuza's next release. This page is how it works.
-
 nuza still works with no account, and there is nothing to sign up for. The AI
 panel (⌘L, Ctrl+L elsewhere) hands your question to an AI agent that is
 already on your computer, on your own plan. nuza runs no model, holds no key
