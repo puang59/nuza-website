@@ -51,13 +51,20 @@ const width = (value: number, max: number) => `${Math.max((value / max) * 100, 2
 
 <section id="benchmarks" class="band" aria-labelledby="benchmarks-title">
   <div class="col">
-    <div class="border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
-      <p class="label">Benchmarks</p>
-      <h2 id="benchmarks-title" class="heading mt-2 text-2xl sm:text-3xl">Light on your machine</h2>
-      <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
-        nuza and Obsidian, side by side on the same 10,000-note vault. Medians of repeated runs,
-        not the best one.
-      </p>
+    <div class="flex items-center justify-between gap-6 border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
+      <div>
+        <p class="label">Benchmarks</p>
+        <h2 id="benchmarks-title" class="heading mt-2 text-2xl sm:text-3xl">Light on your machine</h2>
+        <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
+          nuza and Obsidian, side by side on the same 10,000-note vault. Medians of repeated runs,
+          not the best one.
+        </p>
+      </div>
+      <!-- The app being compared against, at the far end of the header. Sized
+           in em so the lift on hover scales with it. -->
+      <span class="hero-logo-link shrink-0 text-[2.75rem] leading-none sm:text-[3.75rem]" style="--tilt: 8deg">
+        <img src="/logo-obsidian.webp" alt="" width="128" height="128" class="hero-logo block h-[1em] w-auto" />
+      </span>
     </div>
 
     <div class="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
