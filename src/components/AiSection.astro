@@ -1,0 +1,193 @@
+---
+// The AI panel, shown the way it is used: four rows, each a screenshot beside
+// a short explanation, then a strip of what it will never do. The rows
+// alternate sides on a wide screen and stack, text first, on a narrow one.
+//
+// The screenshots live on the same CDN as the gallery's. Their sizes are
+// given so the page reserves the room before they load.
+
+const CDN = 'https://nuza-cdn.puang.in';
+
+// **word** in the copy below is set in white and a heavier weight, so the
+// words that matter can be picked out at a glance. The text is this file's
+// own, so it is safe to hand to set:html.
+const hl = (text: string) =>
+  text.replace(/\*\*(.+?)\*\*/g, '<strong class="font-medium text-white">$1</strong>');
+
+interface Feature {
+  title: string;
+  body: string;
+  points: string[];
+  image: { src: string; alt: string; width: number; height: number };
+}
+
+const FEATURES: Feature[] = [
+  {
+    title: 'Edits you accept one by one',
+    body: 'Ask it to rewrite a line and the answer comes back as **proposed edits**, drawn as a diff in the panel and in the note itself. **Nothing changes until you say so.**',
+    points: [
+      'Each edit has its own **Accept** and **Reject**',
+      'Accepting is an ordinary edit, so **⌘Z undoes it**',
+      'The agent reads your note, but **never writes to it**',
+    ],
+    image: {
+      src: `${CDN}/Snapzy_2026-10-22_13-43-26_960.png`,
+      alt: 'The nuza AI panel after asking Claude Code to rewrite two selected bullets: it explains what it changed, and two proposed edits appear in the panel and as red and green diffs in the note, each with Accept and Reject buttons',
+      width: 1248,
+      height: 812,
+    },
+  },
+  {
+    title: 'The usual jobs, one click away',
+    body: 'Select some text and press **⌘L**. **Rephrase**, **Synonym**, **Explain this**, **Proofread** and **Improve writing** work on exactly what you selected, and typing **/** lists every other action.',
+    points: [
+      'The panel shows **which file and lines** it is about to send',
+      'Pick the **model** and see how much **context** is used',
+      'Or just **ask anything** about the note you are in',
+    ],
+    image: {
+      src: `${CDN}/Snapzy_2026-10-22_13-45-42_982.png`,
+      alt: 'A new nuza AI conversation with a paragraph selected in Vim visual mode: the panel offers Rephrase, Synonym, Explain this, Proofread and Improve writing, shows the selected file and lines being sent, and has a message box with a model picker',
+      width: 1248,
+      height: 812,
+    },
+  },
+  {
+    title: 'Bring the agent you already use',
+    body: 'nuza **runs no model and holds no key**. It finds **Claude Code, Codex or OpenCode** on your computer and hands your question to it, on **your own plan**. **Nothing to sign up for.**',
+    points: [
+      'Claude Code, Codex and OpenCode, with a **Use** button on each',
+      'Any program that speaks the **Agent Client Protocol** also works',
+      '**Off until you turn it on** in Settings',
+    ],
+    image: {
+      src: `${CDN}/Snapzy_2026-10-22_13-46-16_210.png`,
+      alt: 'The nuza AI settings: an AI switch turned on, and Claude Code, Codex and OpenCode each listed as found on the computer, with Claude Code marked in use and a Use button beside the others',
+      width: 1116,
+      height: 722,
+    },
+  },
+  {
+    title: 'Set it up once, per folder',
+    body: 'Choose the **model** for each vault, tell it **how you like replies written**, and give it a **memory** of things to keep in mind. Your instructions and memory go with every question.',
+    points: [
+      '**How it replies**: your own standing instructions',
+      '**Memory** for the folder, or type **/remember** in the panel',
+      '**Web lookups are off** unless you allow them',
+    ],
+    image: {
+      src: `${CDN}/Snapzy_2026-10-22_13-46-28_478.png`,
+      alt: 'The nuza AI settings further down: a switch for looking things up on the web, a model picker set to Sonnet 5.5, a How it replies box holding writing-style instructions, and a Memory section',
+      width: 1116,
+      height: 722,
+    },
+  },
+];
+
+const GUARDS = [
+  {
+    title: 'Off until you ask',
+    body: 'Until you turn AI on there is **no panel**, and nuza **never looks for or starts an agent**.',
+  },
+  {
+    title: 'Fenced in',
+    body: 'On macOS and Linux the agent runs inside an **operating system sandbox**, out of your home folder and unable to write to your notes. On Windows there is **no fence**, and nuza says so.',
+  },
+  {
+    title: 'Every action refused',
+    body: 'Requests to run a command, change a file or delete one are **turned down**, and the panel tells you. It can only **read** your vault, through nuza.',
+  },
+];
+---
+
+<section id="ai" class="band" aria-labelledby="ai-title">
+  <div class="col overflow-hidden">
+    <div class="flex items-center justify-between gap-6 border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
+      <div>
+        <p class="label">AI panel</p>
+        <h2 id="ai-title" class="heading mt-2 text-2xl sm:text-3xl">Cursor for writers</h2>
+        <p class="mt-3 max-w-2xl text-[13px] leading-[1.8] text-zinc-400">
+          Press <strong class="font-medium text-white">⌘L</strong> and ask an AI agent about the note you are writing. It is{' '}
+          <strong class="font-medium text-white">optional</strong>, and nuza keeps it on a short lead: edits come back as{' '}
+          <strong class="font-medium text-white">suggestions</strong>, and nothing is written to your notes until you accept it.
+        </p>
+      </div>
+      <!-- The app this borrows its idea from, at the far end of the header.
+           Sized in em so the lift on hover scales with it. -->
+      <span class="hero-logo-link shrink-0 text-[2.75rem] leading-none sm:text-[3.75rem]" style="--tilt: -8deg">
+        <img src="/logo-cursor.webp" alt="" width="128" height="128" class="hero-logo block h-[1em] w-auto" />
+      </span>
+    </div>
+
+    {FEATURES.map((f, i) => (
+      <article class="grid border-b border-line lg:grid-cols-5">
+        <div
+          class:list={[
+            'flex flex-col justify-center px-5 py-8 sm:px-10 sm:py-10 lg:col-span-2',
+            i % 2 === 0 ? 'lg:order-1' : 'lg:order-2',
+          ]}
+          data-reveal
+        >
+          <h3 class="flex items-center gap-3 text-[13px] font-bold uppercase tracking-[0.08em] text-white">
+            <span class="text-[11px] font-normal text-accent" aria-hidden="true">0{i + 1}</span>
+            {f.title}
+          </h3>
+          <p class="mt-4 text-pretty text-[13px] leading-[1.85] text-zinc-400" set:html={hl(f.body)} />
+          <ul class="mt-5 flex flex-col gap-2.5">
+            {f.points.map((point) => (
+              <li class="flex gap-3 text-[12px] leading-[1.7] text-zinc-300">
+                <span class="mt-[0.55em] h-1 w-1 shrink-0 bg-accent" aria-hidden="true"></span>
+                <span set:html={hl(point)} />
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div
+          class:list={[
+            'bg-panel px-3 py-6 sm:px-8 sm:py-10 lg:col-span-3',
+            i % 2 === 0
+              ? 'border-t border-line lg:order-2 lg:border-l lg:border-t-0'
+              : 'border-t border-line lg:order-1 lg:border-r lg:border-t-0',
+          ]}
+          data-reveal
+          style="--delay: 100ms"
+        >
+          <img
+            src={f.image.src}
+            alt={f.image.alt}
+            width={f.image.width}
+            height={f.image.height}
+            loading="lazy"
+            decoding="async"
+            class="mx-auto h-auto w-full max-w-[40rem]"
+          />
+        </div>
+      </article>
+    ))}
+
+    <div class="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
+      {GUARDS.map((g, i) => (
+        <div class="px-5 py-8 sm:px-10 md:px-8 md:py-10 lg:px-10" data-reveal style={`--delay: ${i * 80}ms`}>
+          <h3 class="text-[13px] font-bold uppercase tracking-[0.08em] text-white">{g.title}</h3>
+          <p class="mt-4 text-pretty text-[13px] leading-[1.85] text-zinc-400" set:html={hl(g.body)} />
+        </div>
+      ))}
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-line px-5 py-5 sm:px-10" data-reveal>
+      <p class="text-[12px] leading-[1.8] text-zinc-500">
+        The agent still passes your question to its own provider, under that provider's terms.
+      </p>
+      <a
+        href="/docs/ai/"
+        class="group inline-flex items-center gap-2 text-[13px] text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white"
+      >
+        How the AI works, and what it is sent
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">
+          <path d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

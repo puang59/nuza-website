@@ -342,6 +342,26 @@ section[id] {
   }
 }
 
+/*
+ * The two app icons in the hero's headline lift and tilt a little when the
+ * name beside them is hovered, leaning opposite ways. Only where there is a
+ * real hover: on a touch screen it would stick after a tap.
+ */
+.hero-logo {
+  transition: transform 0.45s var(--ease-out-soft);
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .hero-logo-link {
+    cursor: pointer;
+  }
+
+  .hero-logo-link:hover .hero-logo {
+    transform: translateY(-0.12em) rotate(var(--tilt, 8deg));
+  }
+}
+
 /* The painting eases back into place once, on load. */
 @keyframes artSettle {
   from { transform: scale(1.04); }
@@ -446,6 +466,10 @@ section[id] {
   .fade-in,
   .ticker-track {
     animation: none;
+  }
+
+  .hero-logo {
+    transition: none;
   }
 
   .js [data-reveal] {

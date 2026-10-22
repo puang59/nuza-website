@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import { fetchStarCount } from '../lib/stars';
 import InfoSection from '../components/InfoSection.astro';
 import PreviewsSection from '../components/PreviewsSection.astro';
+import AiSection from '../components/AiSection.astro';
 import BenchmarksSection from '../components/BenchmarksSection.astro';
 import TestimonialsSection from '../components/TestimonialsSection.astro';
 import ChangelogSection from '../components/ChangelogSection.astro';
@@ -75,8 +76,10 @@ const structuredData = [
 >
   <InfoSection version={latestVersion} stars={stars} />
   <Ticker />
-  <PreviewsSection />
+  <AiSection />
   <Ticker text="cursor for writers · obsidian alternative · local files" />
+  <PreviewsSection />
+  <Ticker />
   <BenchmarksSection />
   <Ticker text="small · quick · measured" />
   <TestimonialsSection />
