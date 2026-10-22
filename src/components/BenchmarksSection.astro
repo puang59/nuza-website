@@ -1,0 +1,115 @@
+---
+// How nuza compares with Obsidian on the same machine and the same vault.
+// Three cells, one per measurement; in each the two apps are drawn as bars
+// to one scale, so the difference reads before any number does.
+//
+// The figures are medians from a scripted run: 10,000 generated notes (about
+// 46 MB, one of them 7 MB), a reopened vault, an M4 MacBook, nuza 1.1.0 and
+// Obsidian 1.14.4. The bar widths are computed from the same values that are
+// printed, so the two cannot drift apart.
+
+interface Metric {
+  label: string;
+  title: string;
+  nuza: { value: number; text: string };
+  obsidian: { value: number; text: string };
+  /** Plain words for the gap, e.g. "4x less". */
+  gap: string;
+  note: string;
+}
+
+const METRICS: Metric[] = [
+  {
+    label: 'Memory',
+    title: 'Idle memory',
+    nuza: { value: 264, text: '264 MB' },
+    obsidian: { value: 1046, text: '1.05 GB' },
+    gap: '4x less',
+    note: 'Twenty seconds after opening the vault, counting every process each app owns.',
+  },
+  {
+    label: 'Startup',
+    title: 'Launch to editor',
+    nuza: { value: 425, text: '0.43 s' },
+    obsidian: { value: 948, text: '0.95 s' },
+    gap: '2.2x faster',
+    note: 'From starting the app to the note being on screen, ready to type in.',
+  },
+  {
+    label: 'Size',
+    title: 'App on disk',
+    nuza: { value: 9.3, text: '9.3 MB' },
+    obsidian: { value: 270, text: '270 MB' },
+    gap: '29x smaller',
+    note: 'The installed application, as it sits in Applications.',
+  },
+];
+
+// A bar never drops below a sliver, so a very small value still shows.
+const width = (value: number, max: number) => `${Math.max((value / max) * 100, 2.5)}%`;
+---
+
+<section id="benchmarks" class="band" aria-labelledby="benchmarks-title">
+  <div class="col">
+    <div class="border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
+      <p class="label">Benchmarks</p>
+      <h2 id="benchmarks-title" class="heading mt-2 text-2xl sm:text-3xl">Light on your machine</h2>
+      <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
+        nuza and Obsidian, side by side on the same 10,000-note vault. Medians of repeated runs,
+        not the best one.
+      </p>
+    </div>
+
+    <div class="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
+      {METRICS.map((m, i) => {
+        const max = Math.max(m.nuza.value, m.obsidian.value);
+        return (
+          <article class="flex flex-col gap-7 px-5 py-8 sm:px-10 sm:py-10 md:px-8 lg:px-10" data-reveal style={`--delay: ${i * 80}ms`}>
+            <header class="flex items-center justify-between gap-3">
+              <p class="label">{m.label}</p>
+              <span class="border border-line bg-raised px-2 py-1 text-[11px] leading-none text-accent">
+                {m.gap}
+              </span>
+            </header>
+
+            <div>
+              <p class="heading text-4xl sm:text-5xl">{m.nuza.text}</p>
+              <p class="mt-2 text-[13px] text-zinc-400">{m.title}</p>
+            </div>
+
+            <dl class="flex flex-col gap-4" aria-label={`${m.title}: nuza ${m.nuza.text}, Obsidian ${m.obsidian.text}`}>
+              <div>
+                <div class="flex items-baseline justify-between text-[12px]">
+                  <dt class="text-white">nuza</dt>
+                  <dd class="text-zinc-300">{m.nuza.text}</dd>
+                </div>
+                <div class="mt-2 h-2 bg-raised" aria-hidden="true">
+                  <div class="h-full bg-accent" style={`width: ${width(m.nuza.value, max)}`}></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex items-baseline justify-between text-[12px]">
+                  <dt class="text-zinc-500">Obsidian</dt>
+                  <dd class="text-zinc-500">{m.obsidian.text}</dd>
+                </div>
+                <div class="mt-2 h-2 bg-raised" aria-hidden="true">
+                  <div class="h-full bg-[#575757]" style={`width: ${width(m.obsidian.value, max)}`}></div>
+                </div>
+              </div>
+            </dl>
+
+            <p class="mt-auto text-pretty text-[12px] leading-[1.8] text-zinc-500">{m.note}</p>
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="border-t border-line px-5 py-5 text-[12px] leading-[1.8] text-zinc-500 sm:px-10" data-reveal>
+      Measured on an M4 MacBook with nuza 1.1.0 and Obsidian 1.14.4, each on its own fresh
+      profile and a copy of the same vault. Warm file cache. Startup was timed through the
+      accessibility API, memory is the physical footprint reported by macOS. Obsidian also
+      spends its first minutes indexing a large vault, which nuza does not need to. Your numbers
+      will vary with your machine and your notes.
+    </p>
+  </div>
+</section>
