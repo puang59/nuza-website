@@ -468,19 +468,6 @@ section[id] {
   animation-play-state: paused;
 }
 
-/*
- * The caret on the contributors' signature line, blinking the way a text
- * cursor does.
- */
-@keyframes cursorBlink {
-  0%, 50% { opacity: 1; }
-  50.01%, 100% { opacity: 0; }
-}
-
-.md-caret {
-  animation: cursorBlink 1.06s step-end infinite;
-}
-
 /* FAQ disclosure */
 .faq summary {
   list-style: none;
@@ -507,8 +494,7 @@ section[id] {
   .rise-in,
   .art-settle,
   .fade-in,
-  .ticker-track,
-  .md-caret {
+  .ticker-track {
     animation: none;
   }
 

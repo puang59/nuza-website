@@ -1,8 +1,7 @@
 ---
 // The people who have built nuza, set like the acknowledgements page of a
 // book: their portraits, one sentence that credits them by name, and an
-// empty signature line at the foot of the page for whoever comes next. The
-// name on that line types itself, and it leads to the contributing guide.
+// empty signature line at the foot of the page for whoever comes next.
 //
 // The list comes from GitHub at build time with bots left out (see
 // lib/contributors.ts), most commits first, so the sentence opens with the
@@ -108,20 +107,22 @@ const joiner = (i: number, count: number) => (i === 0 ? '' : i === count - 1 ? '
           </>
         )}
 
-        <!-- The signature line, waiting for the next name. -->
+        <!-- A signature line at the foot of the page, the kind marked with a
+             cross for where to sign. It leads to the contributing guide. -->
         <a
           href={CONTRIBUTING_URL}
           target="_blank"
           rel="noopener noreferrer"
-          class="group mx-auto mt-14 block max-w-sm"
-          aria-label="Add your name: read the contributing guide"
+          class="group mx-auto mt-14 flex max-w-md items-end gap-4 border-b border-[#575757] pb-3 text-left transition-colors hover:border-accent"
         >
-          <span class="block text-[15px] text-zinc-500">and</span>
-          <span class="mt-2 flex h-12 items-end justify-center border-b border-[#575757] pb-2 transition-colors group-hover:border-accent" aria-hidden="true">
-            <span class="text-[26px] leading-none text-accent sm:text-[30px]" data-typed>you</span>
-            <span class="md-caret ml-1 inline-block h-[1.6rem] w-[2px] bg-accent sm:h-[1.8rem]"></span>
+          <span class="text-[22px] leading-none text-accent" aria-hidden="true">&times;</span>
+          <span class="text-[19px] leading-none text-zinc-600 transition-colors group-hover:text-white">your name here</span>
+          <span class="ml-auto inline-flex items-center gap-1.5 whitespace-nowrap text-[14px] leading-none text-zinc-400 transition-colors group-hover:text-accent">
+            Sign the page
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">
+              <path d="M9 5l7 7-7 7" />
+            </svg>
           </span>
-          <span class="mt-3 block text-[13px] text-zinc-500 transition-colors group-hover:text-white">your name here</span>
         </a>
       </article>
     </div>
@@ -147,39 +148,3 @@ const joiner = (i: number, count: number) => (i === 0 ? '' : i === count - 1 ? '
 </section>
 
 <script src="../scripts/dotfield.ts"></script>
-
-<script>
-  // Writes a few names onto the signature line, one at a time, the way
-  // someone signing it would. Left as "you" when motion is reduced.
-  const NAMES = ['you', 'your name', 'a writer', 'a first-timer'];
-
-  function initSigning(): void {
-    const el = document.querySelector<HTMLElement>('[data-typed]');
-    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    let name = 0;
-    let length = NAMES[0].length;
-    let deleting = true;
-
-    const tick = () => {
-      const word = NAMES[name];
-      length += deleting ? -1 : 1;
-      el.textContent = word.slice(0, length);
-
-      let wait = deleting ? 45 : 110;
-      if (!deleting && length === word.length) {
-        deleting = true;
-        wait = 2400;
-      } else if (deleting && length === 0) {
-        deleting = false;
-        name = (name + 1) % NAMES.length;
-        wait = 450;
-      }
-      window.setTimeout(tick, wait);
-    };
-
-    window.setTimeout(tick, 2400);
-  }
-
-  document.addEventListener('DOMContentLoaded', initSigning);
-</script>
