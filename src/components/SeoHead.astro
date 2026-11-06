@@ -17,8 +17,8 @@ export interface Props {
 const { title, description, structuredData = [], preloadImage, article } = Astro.props;
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
-const OG_IMAGE = `${SITE_URL}/banner.png`;
-const IMAGE_ALT = 'nuza, a lightweight open-source markdown note taking app with Vim keybindings';
+const OG_IMAGE = `${SITE_URL}/og.png`;
+const IMAGE_ALT = 'If Cursor and Obsidian had a baby: nuza, a fast open-source markdown editor, over a dithered painting of a philosopher at dusk';
 
 // The pathname as it is built, trailing slash and all, which is also how the
 // sitemap lists it - a canonical that disagrees with the sitemap is a mixed
@@ -99,8 +99,8 @@ const graph = {
 <meta property="og:image" content={OG_IMAGE} />
 <meta property="og:image:secure_url" content={OG_IMAGE} />
 <meta property="og:image:type" content="image/png" />
-<meta property="og:image:width" content="1920" />
-<meta property="og:image:height" content="1080" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={IMAGE_ALT} />
 
 <!-- Twitter / X -->

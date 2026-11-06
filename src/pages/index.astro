@@ -18,7 +18,7 @@ const latestRelease = changelogs[0]?.release;
 const latestVersion = latestRelease?.tag ? versionFromTag(latestRelease.tag) : '';
 
 const SITE_URL = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.nuza.org';
-const OG_IMAGE = `${SITE_URL}/banner.png`;
+const OG_IMAGE = `${SITE_URL}/og.png`;
 
 // No em dash in either: this is what a search result shows, and it reads
 // better as a plain sentence than as two halves.
