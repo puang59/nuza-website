@@ -1,7 +1,6 @@
 ---
 // The people who have built nuza, set like the acknowledgements page of a
-// book: their portraits, one sentence that credits them by name, and an
-// empty signature line at the foot of the page for whoever comes next.
+// book: their portraits and one sentence that credits them by name.
 //
 // The list comes from GitHub at build time with bots left out (see
 // lib/contributors.ts), most commits first, so the sentence opens with the
@@ -106,24 +105,6 @@ const joiner = (i: number, count: number) => (i === 0 ? '' : i === count - 1 ? '
             </p>
           </>
         )}
-
-        <!-- A signature line at the foot of the page, the kind marked with a
-             cross for where to sign. It leads to the contributing guide. -->
-        <a
-          href={CONTRIBUTING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group mx-auto mt-14 flex max-w-md items-end gap-4 border-b border-[#575757] pb-3 text-left transition-colors hover:border-accent"
-        >
-          <span class="text-[22px] leading-none text-accent" aria-hidden="true">&times;</span>
-          <span class="text-[19px] leading-none text-zinc-600 transition-colors group-hover:text-white">your name here</span>
-          <span class="ml-auto inline-flex items-center gap-1.5 whitespace-nowrap text-[14px] leading-none text-zinc-400 transition-colors group-hover:text-accent">
-            Sign the page
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">
-              <path d="M9 5l7 7-7 7" />
-            </svg>
-          </span>
-        </a>
       </article>
     </div>
 
