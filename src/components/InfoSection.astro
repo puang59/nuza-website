@@ -20,16 +20,17 @@ const { version, stars } = Astro.props;
 
 const notes = [
   {
-    title: 'Why we built it',
-    body: 'Honestly? We started building nuza just for fun, to see if we could completely replace our daily note-taking apps with something substantially lighter and faster. We wanted a tool that does exactly what you need it to do: nothing extra, no bloated plugins, and no sluggish startup times. It is brutally simple and just works right out of the box.',
+    title: 'Brutally simple',
+    body: 'Opens fast and stays out of your way. No plugins to babysit.',
   },
   {
-    title: 'Under the hood',
-    body: 'nuza is a native desktop application powered by Rust via Tauri. The frontend is extremely minimal, written in React and TypeScript, while the writing experience is driven by CodeMirror to provide flawless, native-feeling Vim keybindings.',
+    title: 'Native underneath',
+    body: 'Rust and Tauri under the hood, CodeMirror with real Vim keys on top.',
   },
   {
-    title: 'Fully open source',
-    body: "nuza is entirely open source and community-driven. If you want to help us make the ultimate minimalist editor, pull requests are always welcome. Whether it's fixing a bug, tweaking the UI, or just starring the repository, jump into the GitHub and come build with us!",
+    title: 'Built in the open',
+    body: 'MIT licensed and shaped by the people who use it.',
+    link: { href: '#contributors', label: 'Meet the creators' },
   },
 ];
 ---
@@ -84,13 +85,12 @@ const notes = [
     </h1>
 
     <p
-      class="rise-in hero-shadow mt-5 max-w-2xl text-pretty text-[12px] leading-[1.75] text-zinc-400 sm:mt-6 sm:text-[14.5px] sm:leading-[1.8] sm:text-zinc-300"
+      class="rise-in hero-shadow mt-5 max-w-2xl text-pretty text-[14px] leading-[1.7] text-zinc-300 sm:mt-6 sm:text-[16px]"
       style="--delay: 160ms"
     >
       <strong class="font-medium text-white">nuza</strong> is a fast, open-source{' '}
-      <a href="/obsidian-alternative/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Obsidian alternative</a><span class="hidden sm:inline"> for macOS, Windows and Linux</span>: plain local markdown files, Vim keybindings, no bloat. Its optional
-      AI panel is <a href="/cursor-for-writers/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Cursor for writers</a>,
-      suggesting edits you accept one by one.
+      <a href="/obsidian-alternative/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Obsidian alternative</a>:
+      local markdown, Vim keys, no bloat. Its optional AI is <a href="/cursor-for-writers/" class="text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">Cursor for writers</a>.
     </p>
 
     <!-- Raised above what follows: each `rise-in` block is its own stacking
@@ -160,11 +160,17 @@ const notes = [
       {notes.map((note, i) => (
         <div class="border-b border-line px-5 py-8 last:border-b-0 sm:px-10 md:border-b-0 md:border-r md:px-8 md:py-10 md:last:border-r-0 lg:px-10">
           <div data-reveal style={`--delay: ${i * 90}ms`}>
-            <h3 class="flex items-center gap-3 text-[13px] font-bold uppercase tracking-[0.08em] text-white">
-              <span class="text-[11px] font-normal text-accent" aria-hidden="true">0{i + 1}</span>
-              {note.title}
-            </h3>
-            <p class="mt-4 text-[13px] leading-[1.85] text-zinc-400">{note.body}</p>
+            <span class="text-[12px] text-accent" aria-hidden="true">0{i + 1}</span>
+            <h3 class="heading mt-3 text-xl sm:text-2xl">{note.title}</h3>
+            <p class="blurb mt-3">{note.body}</p>
+            {note.link && (
+              <a href={note.link.href} class="group mt-4 inline-flex items-center gap-2 text-[14px] text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white">
+                {note.link.label}
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">
+                  <path d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            )}
           </div>
         </div>
       ))}

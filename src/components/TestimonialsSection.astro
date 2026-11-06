@@ -101,14 +101,12 @@ const ROWS = [
 
 <section id="testimonials" class="band" aria-labelledby="testimonials-title">
   <div class="col overflow-hidden">
-    <div class="border-b border-line px-5 py-6 sm:px-10 sm:py-8" data-reveal>
+    <div class="border-b border-line px-5 py-8 sm:px-10 sm:py-10" data-reveal>
       <p class="label">Testimonials</p>
-      <h2 id="testimonials-title" class="heading mt-2 text-2xl sm:text-3xl">
+      <h2 id="testimonials-title" class="heading mt-2 text-3xl sm:text-4xl">
         Don't just take our word for it
       </h2>
-      <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
-        A few things people have said about nuza on X.
-      </p>
+      <p class="lede mt-4">What people are saying on X.</p>
     </div>
 
     <div class="flex flex-col gap-4 py-6 sm:py-10" data-reveal style="--delay: 100ms">
@@ -125,7 +123,7 @@ const ROWS = [
                   aria-hidden={duplicate ? 'true' : undefined}
                   tabindex={duplicate ? -1 : undefined}
                 >
-                  <p class="text-pretty text-[14px] leading-[1.7] text-zinc-200">{t.text}</p>
+                  <p class="text-pretty text-[15px] leading-[1.6] text-zinc-100">{t.text}</p>
                   <div class="flex items-center gap-3">
                     <span class="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-raised text-[12px] font-medium text-zinc-300">
                       {initials(t.name)}
