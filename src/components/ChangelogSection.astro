@@ -17,13 +17,11 @@ const displayTag = (tag: string) => tag.replace(/^(app-)?v?/, 'v');
 <section id="changelog" class="band" aria-labelledby="changelog-title">
   <div class="col">
 
-    <div class="flex flex-col gap-5 border-b border-line px-5 py-6 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:py-8" data-reveal>
+    <div class="flex flex-col gap-5 border-b border-line px-5 py-8 sm:flex-row sm:items-end sm:justify-between sm:px-10 sm:py-10" data-reveal>
       <div>
         <p class="label">Releases</p>
-        <h2 id="changelog-title" class="heading mt-2 text-2xl sm:text-3xl">Changelog</h2>
-        <p class="mt-3 max-w-xl text-[13px] leading-[1.8] text-zinc-400">
-          Every release of nuza and the commits that went into it, straight from the repository.
-        </p>
+        <h2 id="changelog-title" class="heading mt-2 text-3xl sm:text-4xl">Changelog</h2>
+        <p class="lede mt-4">Every release, straight from the repository.</p>
       </div>
 
       <div class="flex shrink-0 items-center gap-3">
@@ -92,7 +90,7 @@ const displayTag = (tag: string) => tag.replace(/^(app-)?v?/, 'v');
                   <span class="h-1.5 w-1.5 bg-accent"></span>
                   {displayTag(data.release.tag)}
                 </span>
-                <h3 class="text-[14px] font-bold text-white">
+                <h3 class="text-[16px] font-bold text-white">
                   <a
                     href={data.release.url}
                     target="_blank"
@@ -122,10 +120,10 @@ const displayTag = (tag: string) => tag.replace(/^(app-)?v?/, 'v');
                           rel="noopener noreferrer"
                           class="group flex items-baseline gap-3 px-4 py-3 transition-colors hover:bg-raised sm:gap-4 sm:px-6"
                         >
-                          <span class={`w-14 shrink-0 text-[10px] font-bold uppercase tracking-widest sm:w-16 ${color}`}>
+                          <span class={`w-14 shrink-0 font-mono text-[10px] font-bold uppercase tracking-widest sm:w-16 ${color}`}>
                             {category}
                           </span>
-                          <span class="min-w-0 flex-1 truncate text-[12.5px] text-zinc-400 transition-colors group-hover:text-zinc-100">
+                          <span class="min-w-0 flex-1 truncate text-[14.5px] text-zinc-300 transition-colors group-hover:text-zinc-100">
                             {commit.title}
                           </span>
                           <time datetime={commit.date} class="hidden shrink-0 text-[11px] text-zinc-600 sm:block">

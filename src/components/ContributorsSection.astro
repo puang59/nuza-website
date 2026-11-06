@@ -1,0 +1,131 @@
+---
+// The people who have built nuza, set like the acknowledgements page of a
+// book: their portraits and one sentence that credits them by name.
+//
+// The list comes from GitHub at build time with bots left out (see
+// lib/contributors.ts), most commits first, so the sentence opens with the
+// person who has written the most. Avatars come from GitHub's avatar CDN,
+// sized down with `s=`; one that fails to load removes itself and its
+// initial shows instead.
+
+import type { Contributor } from '../lib/contributors';
+
+interface Props {
+  contributors: Contributor[];
+}
+
+const { contributors } = Astro.props;
+
+const REPO_URL = 'https://github.com/puang59/nuza';
+const CONTRIBUTING_URL = `${REPO_URL}/blob/main/CONTRIBUTING.md`;
+const ISSUES_URL = `${REPO_URL}/issues`;
+
+const avatar = (src: string) => {
+  const url = new URL(src);
+  url.searchParams.set('s', '112');
+  return url.toString();
+};
+const commits = (n: number) => `${n} ${n === 1 ? 'commit' : 'commits'}`;
+
+const [lead, ...rest] = contributors;
+
+// "a", "a and b", "a, b and c": the separator to put before each name.
+const joiner = (i: number, count: number) => (i === 0 ? '' : i === count - 1 ? ' and ' : ', ');
+---
+
+<section id="contributors" class="band" aria-labelledby="contributors-title">
+  <div class="col">
+    <div class="border-b border-line px-5 py-8 sm:px-10 sm:py-10" data-reveal>
+      <p class="label">Contributors</p>
+      <h2 id="contributors-title" class="heading mt-2 text-3xl sm:text-4xl">Creators of nuza</h2>
+      <p class="lede mt-4">Every book has its authors. These are ours.</p>
+    </div>
+
+    <div class="relative isolate overflow-hidden px-4 py-12 sm:px-10 sm:py-20">
+      <!-- A drifting field of coral dots behind the page (scripts/dotfield.ts),
+           faded out towards the edges so it settles into the band. -->
+      <canvas
+        data-dotfield
+        class="pointer-events-none absolute inset-0 -z-10 h-full w-full [mask-image:radial-gradient(ellipse_90%_95%_at_50%_50%,#000_45%,transparent_100%)]"
+        aria-hidden="true"
+      ></canvas>
+
+      <article data-reveal style="--delay: 100ms" class="box relative mx-auto max-w-3xl shadow-[0_40px_120px_-20px_rgba(0,0,0,0.95)] px-6 py-12 text-center sm:px-16 sm:py-16">
+        <p class="label">Acknowledgements</p>
+
+        {contributors.length > 0 && (
+          <>
+            <ul class="mt-8 flex flex-wrap justify-center gap-y-3 pl-3">
+              {contributors.map((c) => (
+                <li class="-ml-3">
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`${c.login}, ${commits(c.contributions)}`}
+                    class="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-raised text-[18px] uppercase text-zinc-400 ring-4 ring-panel transition-transform duration-300 ease-out hover:z-10 hover:-translate-y-1 sm:h-16 sm:w-16"
+                  >
+                    <span aria-hidden="true">{c.login[0]}</span>
+                    <img
+                      src={avatar(c.avatar)}
+                      alt={c.login}
+                      width="64"
+                      height="64"
+                      loading="lazy"
+                      decoding="async"
+                      onerror="this.remove()"
+                      class="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </a>
+                </li>
+              ))}
+              <li class="-ml-3">
+                <a
+                  href={CONTRIBUTING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="You, next"
+                  class="relative flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-[#575757] bg-panel text-[22px] text-zinc-500 ring-4 ring-panel transition-colors hover:border-accent hover:text-accent sm:h-16 sm:w-16"
+                >
+                  <span aria-hidden="true">+</span>
+                  <span class="sr-only">Add your name</span>
+                </a>
+              </li>
+            </ul>
+
+            <p class="mx-auto mt-10 max-w-2xl text-balance text-[22px] leading-[1.5] text-zinc-400 sm:text-[28px]">
+              nuza is written by{' '}
+              <a href={lead.url} target="_blank" rel="noopener noreferrer" class="text-white underline decoration-accent/50 decoration-2 underline-offset-[6px] transition-colors hover:decoration-accent">{lead.login}</a>{rest.length > 0 ? ', with help from ' : '.'}
+              {rest.map((c, i) => (
+                <>
+                  {joiner(i, rest.length)}
+                  <a href={c.url} target="_blank" rel="noopener noreferrer" class="text-white underline decoration-accent/50 decoration-2 underline-offset-[6px] transition-colors hover:decoration-accent">{c.login}</a>
+                </>
+              ))}{rest.length > 0 && '.'}
+            </p>
+          </>
+        )}
+      </article>
+    </div>
+
+    <div class="flex flex-col gap-6 border-t border-line px-5 py-10 sm:px-10 md:flex-row md:items-center md:justify-between" data-reveal>
+      <div>
+        <h3 class="heading text-2xl sm:text-3xl">There is room on this page</h3>
+        <p class="lede mt-3">
+          Fix a typo, improve the docs, report what feels off or send code. Writers and coders are
+          both welcome.
+        </p>
+      </div>
+      <div class="flex shrink-0 flex-wrap gap-3">
+        <a href={CONTRIBUTING_URL} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Start contributing
+        </a>
+        <a href={ISSUES_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          Open issues
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../scripts/dotfield.ts"></script>
