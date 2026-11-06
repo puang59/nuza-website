@@ -90,7 +90,7 @@ const displayTag = (tag: string) => tag.replace(/^(app-)?v?/, 'v');
                   <span class="h-1.5 w-1.5 bg-accent"></span>
                   {displayTag(data.release.tag)}
                 </span>
-                <h3 class="text-[14px] font-bold text-white">
+                <h3 class="text-[16px] font-bold text-white">
                   <a
                     href={data.release.url}
                     target="_blank"
@@ -123,7 +123,7 @@ const displayTag = (tag: string) => tag.replace(/^(app-)?v?/, 'v');
                           <span class={`w-14 shrink-0 font-mono text-[10px] font-bold uppercase tracking-widest sm:w-16 ${color}`}>
                             {category}
                           </span>
-                          <span class="min-w-0 flex-1 truncate text-[13.5px] text-zinc-300 transition-colors group-hover:text-zinc-100">
+                          <span class="min-w-0 flex-1 truncate text-[14.5px] text-zinc-300 transition-colors group-hover:text-zinc-100">
                             {commit.title}
                           </span>
                           <time datetime={commit.date} class="hidden shrink-0 text-[11px] text-zinc-600 sm:block">

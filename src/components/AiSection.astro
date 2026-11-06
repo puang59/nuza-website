@@ -108,7 +108,7 @@ const GUARDS = [
           <p class="blurb mt-4" set:html={hl(f.body)} />
           <ul class="mt-6 flex flex-wrap gap-2">
             {f.tags.map((tag) => (
-              <li class="border border-line bg-raised px-2.5 py-1 text-[12px] text-zinc-300">{tag}</li>
+              <li class="border border-line bg-raised px-2.5 py-1 text-[13px] text-zinc-300">{tag}</li>
             ))}
           </ul>
         </div>
@@ -139,19 +139,19 @@ const GUARDS = [
     <div class="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
       {GUARDS.map((g, i) => (
         <div class="px-5 py-8 sm:px-10 md:px-8 md:py-10 lg:px-10" data-reveal style={`--delay: ${i * 80}ms`}>
-          <h3 class="text-[14px] font-bold uppercase tracking-[0.08em] text-white">{g.title}</h3>
+          <h3 class="text-[15px] font-bold uppercase tracking-[0.06em] text-white">{g.title}</h3>
           <p class="blurb mt-3" set:html={hl(g.body)} />
         </div>
       ))}
     </div>
 
     <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-line px-5 py-5 sm:px-10" data-reveal>
-      <p class="text-[12px] leading-[1.8] text-zinc-500">
+      <p class="text-[14px] leading-[1.8] text-zinc-500">
         Your agent's provider still sees what you ask it.
       </p>
       <a
         href="/docs/ai/"
-        class="group inline-flex items-center gap-2 text-[13px] text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white"
+        class="group inline-flex items-center gap-2 text-[15px] text-white underline decoration-zinc-500 underline-offset-4 hover:decoration-white"
       >
         How the AI works
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">

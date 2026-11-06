@@ -1,12 +1,12 @@
 /*
  * The fonts come from the site's own bundle rather than from Google: no
  * render-blocking request to a third party, and no layout jump when they are
- * slow. Space Grotesk carries the reading text; the headings are set in Geist
+ * slow. Geist carries the reading text; the headings are set in Geist
  * Pixel, which comes in a single weight, so their bold is the browser's.
  * JetBrains Mono is kept for what is code or a label: commands, commit
  * kinds, the small uppercase kickers and the tickers.
  */
-@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/geist";
 @import "@fontsource-variable/jetbrains-mono";
 @import "@fontsource/geist-pixel/latin.css";
 @import "tailwindcss";
@@ -17,7 +17,7 @@
  */
 @theme {
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", "Geist", ui-sans-serif, system-ui, sans-serif;
 
   --color-ink: #060606;
   --color-panel: #0a0a0a;
@@ -141,8 +141,8 @@ section[id] {
    * says less, so what it does say can afford to be bigger.
    */
   .lede {
-    max-width: 36rem;
-    font-size: 0.9375rem;
+    max-width: 38rem;
+    font-size: 1rem;
     line-height: 1.7;
     color: rgb(161, 161, 170);
     text-wrap: pretty;
@@ -150,12 +150,12 @@ section[id] {
 
   @media (min-width: 640px) {
     .lede {
-      font-size: 1rem;
+      font-size: 1.125rem;
     }
   }
 
   .blurb {
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     line-height: 1.7;
     color: rgb(161, 161, 170);
     text-wrap: pretty;
